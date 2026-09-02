@@ -26,6 +26,13 @@ export const sources = {
   signatures: 'https://openwrt.org/docs/guide-user/security/release_signatures',
   apk: 'https://openwrt.org/docs/guide-user/additional-software/apk',
   uart: 'https://github.com/981213/mtk_uartboot',
+  windowsSsh:
+    'https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse',
+  powershell:
+    'https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows',
+  binaryStreams:
+    'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_redirection',
+  tftpd64: 'https://github.com/PJO2/tftpd64',
 };
 export const artifacts = [
   {

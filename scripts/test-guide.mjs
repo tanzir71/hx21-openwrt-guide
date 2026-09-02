@@ -2,20 +2,30 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { resolve } from 'node:path';
+import { resolve, dirname } from 'node:path';
 import ts from 'typescript';
 const root = resolve(import.meta.dirname, '..');
-async function loadTs(file) {
-  const source = await readFile(resolve(root, file), 'utf8');
+async function moduleUrl(file) {
+  const source = await readFile(file, 'utf8');
   const { outputText } = ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.ESNext,
       target: ts.ScriptTarget.ES2022,
     },
   });
-  return import(
-    'data:text/javascript;base64,' + Buffer.from(outputText).toString('base64')
+  let output = outputText;
+  for (const match of outputText.matchAll(/from ['"](\.\.?\/[^'"]+)['"]/g)) {
+    const dependency = await moduleUrl(
+      resolve(dirname(file), match[1] + '.ts'),
+    );
+    output = output.replace(match[0], `from '${dependency}'`);
+  }
+  return (
+    'data:text/javascript;base64,' + Buffer.from(output).toString('base64')
   );
+}
+async function loadTs(file) {
+  return import(await moduleUrl(resolve(root, file)));
 }
 const { chooseLocale, guidePath, languageCookie, isLocale } =
   await loadTs('lib/locale.ts');
@@ -28,6 +38,9 @@ assert.equal(chooseLocale('bn', 'US'), 'bn');
 assert.equal(chooseLocale('bad', 'BD'), 'bn');
 assert.equal(isLocale('fr'), false);
 assert.equal(guidePath('bn', 'steps'), '/bn/steps');
+assert.equal(guidePath('bn', 'steps', 'windows'), '/bn/windows/steps');
+assert.equal(guidePath('en', 'findings', 'windows'), '/en/windows');
+assert.equal(guidePath('en', 'findings', 'mac'), '/en');
 assert.match(
   languageCookie('en', true),
   /Max-Age=31536000; SameSite=Lax; Secure$/,
@@ -35,6 +48,9 @@ assert.match(
 assert.doesNotMatch(languageCookie('bn', false), /Secure/);
 const { findings, artifacts, ui } = await loadTs('lib/content.ts');
 const { steps, faqs } = await loadTs('lib/steps.ts');
+const { platformFindings, platformSteps, platformUi } = await loadTs(
+  'lib/platform-content.ts',
+);
 for (const locale of ['en', 'bn']) {
   assert.equal(findings[locale].length, 9);
   assert.equal(steps[locale].length, 8);
@@ -44,6 +60,33 @@ for (const locale of ['en', 'bn']) {
   for (const step of steps[locale]) {
     assert.ok(step.checklist.length >= 3);
     assert.ok(step.checkpoint.length > 30);
+  }
+  for (const platform of ['mac', 'windows']) {
+    assert.equal(platformFindings(locale, platform).length, 9);
+    assert.equal(platformSteps(locale, platform).length, 8);
+    assert.equal(
+      new Set(platformFindings(locale, platform).map((f) => f.id)).size,
+      9,
+    );
+    assert.ok(
+      platformFindings(locale, platform).some((f) => f.id === platform),
+    );
+    assert.deepEqual(
+      Object.keys(platformUi(locale, platform)).sort(),
+      Object.keys(ui.en).sort(),
+    );
+    for (const step of platformSteps(locale, platform)) {
+      assert.ok(
+        step.checklist.length >= 3 && step.checklist.every(Boolean),
+        step.id,
+      );
+      assert.ok(step.checkpoint.length > 30);
+    }
+    if (platform === 'windows')
+      assert.doesNotMatch(
+        JSON.stringify(platformSteps(locale, platform)),
+        /\bMac\b|ম্যাক/,
+      );
   }
 }
 const manifest = JSON.parse(
@@ -105,6 +148,79 @@ for (const artifact of artifacts) {
   assert.equal(file.bytes, artifact.size);
   assert.equal(file.sha256, artifact.hash);
 }
+const windowsManifest = JSON.parse(
+  await readFile(
+    resolve(root, 'public/downloads/windows-artifact-manifest.json'),
+    'utf8',
+  ),
+);
+const windowsZip = resolve(root, 'public/downloads', windowsManifest.name);
+const windowsBytes = await readFile(windowsZip);
+assert.equal(windowsBytes.length, windowsManifest.bytes);
+assert.equal(hash(windowsBytes), windowsManifest.sha256);
+assert.equal(windowsManifest.sourceArchiveSha256, manifest.sha256);
+const shared = manifest.files.filter((f) =>
+  /^(firmware|sources|tftp|optional-ssh-unlock)\//.test(f.path),
+);
+const windowsOnly = [
+  'START-HERE.md',
+  'README-BN.md',
+  'DEVICE-WORKSHEET.md',
+  'scripts/Verify-Files.ps1',
+  'scripts/Backup-Stock.ps1',
+];
+assert.equal(windowsManifest.files.length, 20);
+assert.deepEqual(
+  windowsManifest.files
+    .map((f) => f.path)
+    .sort((a, b) => a.localeCompare(b, 'en')),
+  [...shared.map((f) => f.path), ...windowsOnly].sort((a, b) =>
+    a.localeCompare(b, 'en'),
+  ),
+);
+execFileSync('/usr/bin/unzip', ['-t', windowsZip], { stdio: 'pipe' });
+assert.deepEqual(
+  execFileSync('/usr/bin/unzip', ['-Z1', windowsZip], { encoding: 'utf8' })
+    .trim()
+    .split('\n')
+    .sort(),
+  windowsManifest.files.map((f) => 'HX21-OpenWrt-Windows-Kit/' + f.path).sort(),
+);
+for (const file of windowsManifest.files) {
+  const data = execFileSync(
+    '/usr/bin/unzip',
+    ['-p', windowsZip, 'HX21-OpenWrt-Windows-Kit/' + file.path],
+    { maxBuffer: 128 * 1024 * 1024 },
+  );
+  assert.equal(data.length, file.bytes, file.path);
+  assert.equal(hash(data), file.sha256, file.path);
+  const original = shared.find((f) => f.path === file.path);
+  if (original) assert.equal(file.sha256, original.sha256, file.path);
+  if (!/\.(bin|itb|fip|apk)$/.test(file.path))
+    assert.doesNotMatch(
+      data.toString(),
+      /\/Users\/|\/home\/|BEGIN (?:OPENSSH|RSA|EC) PRIVATE KEY/,
+      file.path,
+    );
+  if (windowsOnly.includes(file.path) && file.path !== 'DEVICE-WORKSHEET.md')
+    assert.deepEqual(
+      data,
+      await readFile(resolve(root, 'artifacts/windows', file.path)),
+      file.path,
+    );
+  if (file.path.endsWith('.ps1')) {
+    const script = data.toString();
+    assert.match(script, /^#Requires -Version 7\.4/);
+    const commands = script
+      .split('\n')
+      .filter((line) => !line.trim().startsWith('#'))
+      .join('\n');
+    assert.doesNotMatch(
+      commands,
+      /2>&1|Out-File|StrictHostKeyChecking=no|(?:^|[\s'"])sysupgrade(?:[\s'"]|$)|mtd\s+write|dd\s+of=/im,
+    );
+  }
+}
 for (const name of ['prepare', 'backup', 'verify', 'finish'])
   assert.ok(
     (await readFile(resolve(root, 'public/illustrations', name + '.webp')))
@@ -120,7 +236,7 @@ assert.equal(
   '2a4e952b1c9d98dd814f22b919f36742df446ce8',
 );
 console.log(
-  'PASS: locale precedence; translation parity; 9 findings / 8 steps per language; four image files; favicon; exact 40-file ZIP allowlist, byte counts, SHA-256, privacy scan and shell syntax.',
+  'PASS: locale/OS routing and translation parity; 9 findings / 8 steps per language and OS; artwork/font/favicon; exact 40-file macOS and 20-file Windows archives, hashes, shared-image parity, privacy and helper source checks.',
 );
 if (process.env.TEST_BASE_URL) {
   const base = process.env.TEST_BASE_URL;
@@ -140,69 +256,105 @@ if (process.env.TEST_BASE_URL) {
     assert.match(response.headers.get('vary'), /Cookie/);
   }
   for (const locale of ['en', 'bn'])
-    for (const view of ['findings', 'steps']) {
-      const path = guidePath(locale, view),
-        response = await fetch(base + path, {
-          headers: {
-            'x-vercel-ip-country': locale === 'en' ? 'BD' : 'US',
-            cookie: 'hx21-language-v1=' + (locale === 'en' ? 'bn' : 'en'),
-          },
-        });
-      assert.equal(response.status, 200, path);
-      assert.equal(new URL(response.url).pathname, path);
-      const html = await response.text();
-      assert.match(html, new RegExp('<html lang="' + locale + '"'));
-      assert.ok(html.includes(ui[locale].title));
-      assert.ok(
-        html.includes('href="/en' + (view === 'steps' ? '/steps' : '') + '"'),
-      );
-      assert.ok(
-        html.includes('href="/bn' + (view === 'steps' ? '/steps' : '') + '"'),
-      );
-      assert.ok(html.includes('rel="canonical"'));
-      assert.ok(
-        html.includes('hrefLang="en"') ||
-          html.includes('hrefLang="en-US"') ||
-          html.includes('hreflang="en"'),
-      );
-      assert.ok(html.includes('application/ld+json'));
-      assert.ok(html.includes('property="og:image"'));
-      assert.ok(html.includes('name="twitter:card"'));
-      assert.ok(html.includes('/favicon.svg'));
-      if (view === 'findings') {
-        assert.ok(html.includes('id="mac-fix"'));
-        assert.ok(html.includes('0x4'));
-      } else assert.ok(html.includes(guidePath(locale) + '#mac-fix'));
-      if (locale === 'bn' && view === 'steps') {
-        const styles = [
-          ...html.matchAll(/<link[^>]+href="([^"]+\.css(?:\?[^"]*)?)"[^>]*>/g),
-        ].map((match) => match[1].replaceAll('&amp;', '&'));
-        assert.ok(styles.length);
-        const sheets = await Promise.all(
-          styles.map(
-            async (path) => await (await fetch(new URL(path, base))).text(),
+    for (const platform of ['mac', 'windows'])
+      for (const view of ['findings', 'steps']) {
+        const path = guidePath(locale, view, platform),
+          response = await fetch(base + path, {
+            headers: {
+              'x-vercel-ip-country': locale === 'en' ? 'BD' : 'US',
+              cookie: 'hx21-language-v1=' + (locale === 'en' ? 'bn' : 'en'),
+            },
+          });
+        assert.equal(response.status, 200, path);
+        assert.equal(new URL(response.url).pathname, path);
+        const html = await response.text();
+        assert.match(html, new RegExp('<html lang="' + locale + '"'));
+        assert.ok(html.includes(ui[locale].title));
+        for (const language of ['en', 'bn'])
+          assert.ok(
+            html.includes('href="' + guidePath(language, view, platform) + '"'),
+            path + ' language link',
+          );
+        for (const os of ['mac', 'windows'])
+          assert.ok(
+            html.includes('href="' + guidePath(locale, view, os) + '"'),
+            path + ' OS link',
+          );
+        const selected = [...html.matchAll(/<a[^>]+>/g)]
+          .map((m) => m[0])
+          .find((a) => a.includes('platform-active'));
+        assert.ok(selected?.includes('href="' + path + '"'));
+        assert.ok(selected.includes('aria-current="page"'));
+        assert.ok(html.includes('href="https://tanziro.com/"'));
+        assert.ok(html.includes('rel="author"'));
+        assert.ok(
+          html.indexOf('class="platform-bar"') < html.indexOf('<main>'),
+        );
+        assert.ok(html.includes('rel="canonical"'));
+        assert.ok(
+          html.includes('hrefLang="en"') ||
+            html.includes('hrefLang="en-US"') ||
+            html.includes('hreflang="en"'),
+        );
+        assert.ok(html.includes('application/ld+json'));
+        assert.ok(html.includes('property="og:image"'));
+        assert.ok(html.includes('name="twitter:card"'));
+        assert.ok(html.includes('/favicon.svg'));
+        if (view === 'findings') {
+          assert.ok(html.includes('id="mac-fix"'));
+          assert.ok(html.includes('0x4'));
+        } else
+          assert.ok(
+            html.includes(guidePath(locale, 'findings', platform) + '#mac-fix'),
+          );
+        if (locale === 'bn' && view === 'steps') {
+          const styles = [
+            ...html.matchAll(
+              /<link[^>]+href="([^"]+\.css(?:\?[^"]*)?)"[^>]*>/g,
+            ),
+          ].map((match) => match[1].replaceAll('&amp;', '&'));
+          assert.ok(styles.length);
+          const sheets = await Promise.all(
+            styles.map(
+              async (path) => await (await fetch(new URL(path, base))).text(),
+            ),
+          );
+          assert.ok(sheets.some((css) => css.includes('--font-baloo-da-2')));
+          const fontUrls = sheets.flatMap((css, index) =>
+            [...css.matchAll(/url\(["']?([^"')]+\.ttf)["']?\)/g)].map(
+              (match) => new URL(match[1], new URL(styles[index], base)),
+            ),
+          );
+          assert.ok(fontUrls.length);
+          assert.equal((await fetch(fontUrls[0])).status, 200);
+        }
+        const selectedManifest =
+          platform === 'windows' ? windowsManifest : manifest;
+        assert.ok(html.includes(selectedManifest.name));
+        assert.ok(html.includes(selectedManifest.sha256));
+        assert.ok(
+          !html.includes(
+            platform === 'windows' ? manifest.name : windowsManifest.name,
           ),
         );
-        assert.ok(sheets.some((css) => css.includes('--font-baloo-da-2')));
-        const fontUrls = sheets.flatMap((css, index) =>
-          [...css.matchAll(/url\(["']?([^"')]+\.ttf)["']?\)/g)].map(
-            (match) => new URL(match[1], new URL(styles[index], base)),
-          ),
-        );
-        assert.ok(fontUrls.length);
-        assert.equal((await fetch(fontUrls[0])).status, 200);
+        if (platform === 'windows') {
+          assert.ok(html.includes('Get-FileHash'));
+          assert.doesNotMatch(html, /shasum -a 256/);
+          if (view === 'steps') {
+            assert.ok(html.includes('Backup-Stock.ps1'));
+            assert.ok(html.includes('Verify-Files.ps1'));
+          }
+        }
+        const ids =
+          view === 'findings'
+            ? platformFindings(locale, platform).map((f) => f.id)
+            : platformSteps(locale, platform).map((s) => 'step-' + s.id);
+        for (const id of ids)
+          assert.ok(html.includes('id="' + id + '"'), path + ' missing ' + id);
+        if (view === 'steps')
+          for (const name of ['prepare', 'backup', 'verify', 'finish'])
+            assert.ok(html.includes(name + '.webp'), path + ' missing ' + name);
       }
-      assert.ok(html.includes(manifest.name));
-      const ids =
-        view === 'findings'
-          ? findings[locale].map((f) => f.id)
-          : steps[locale].map((s) => 'step-' + s.id);
-      for (const id of ids)
-        assert.ok(html.includes('id="' + id + '"'), path + ' missing ' + id);
-      if (view === 'steps')
-        for (const name of ['prepare', 'backup', 'verify', 'finish'])
-          assert.ok(html.includes(name + '.webp'), path + ' missing ' + name);
-    }
   const invalid = await fetch(base + '/fr');
   assert.equal(invalid.status, 404);
   for (const path of [
@@ -220,16 +372,18 @@ if (process.env.TEST_BASE_URL) {
   ])
     assert.equal((await fetch(base + path)).status, 200, path);
   const xml = await (await fetch(base + '/sitemap.xml')).text();
-  assert.equal((xml.match(/<url>/g) || []).length, 4);
+  assert.equal((xml.match(/<url>/g) || []).length, 8);
   assert.ok(xml.includes('hreflang="bn"'));
-  const download = await fetch(base + '/downloads/' + manifest.name);
-  assert.equal(download.status, 200);
-  assert.match(download.headers.get('x-robots-tag'), /noindex/);
-  assert.equal(
-    hash(Buffer.from(await download.arrayBuffer())),
-    manifest.sha256,
-  );
+  for (const archive of [manifest, windowsManifest]) {
+    const download = await fetch(base + '/downloads/' + archive.name);
+    assert.equal(download.status, 200);
+    assert.match(download.headers.get('x-robots-tag'), /noindex/);
+    assert.equal(
+      hash(Buffer.from(await download.arrayBuffer())),
+      archive.sha256,
+    );
+  }
   console.log(
-    'PASS: HTTP locale redirects, cookie precedence, explicit-language stability, all 4 full pages, translated HTML, canonical/hreflang/JSON-LD/social metadata, favicon and images, 404, sitemap and served ZIP integrity.',
+    'PASS: HTTP locale redirects, all 8 complete pages, OS/language/view links, selected control, OS-specific downloads and commands, footer credit, metadata/font/artwork, 404, sitemap and both served ZIP hashes.',
   );
 }

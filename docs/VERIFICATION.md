@@ -1,5 +1,18 @@
 # Verification — 2 September 2026
 
+## OS selector update — 3 September 2026
+
+- macOS/Windows selection is server-rendered above the hero and encoded in the URL. Existing Mac URLs are preserved; four Windows pages bring the total to eight. Language, view, brand and MAC-troubleshooting links preserve the selected OS.
+- Both languages include Tanzir Rahman's footer credit linking to https://tanziro.com/ and contributor metadata. Bengali continues to use Baloo Da 2.
+- Local HTTP checks passed for all eight pages, matching download/manifests/hashes, OS-specific verification commands, selected-control semantics, footer, metadata, assets, sitemap and language preference behavior.
+- GitHub Pages export and static tests passed for all eight pages, project-subpath navigation/assets, both downloaded archives and the exact font bytes.
+- Archive checks passed for the unchanged 40-file Mac kit and the new 20-file Windows kit, every entry's size/hash, exact allowlists, identical shared firmware/source bytes, helper source matching and privacy scans.
+- PowerShell parser and real-file verifier tests passed on macOS with PowerShell 7.6.5, including deliberate corrupt/missing/duplicate data and TFTP-copy failures. The backup helper refused the non-Windows host. See `WINDOWS-REFERENCE-REVIEW.md` for scope and sources.
+- React review kept the OS control server-rendered with native accessible links, explicit current-page semantics and existing client boundaries. No client fetching, detection effect or hydration-dependent OS state was added.
+- No actual Windows machine, router, flash, network-settings change or browser interaction/visual QA was used for these checks.
+
+The earlier verification history below describes the preceding four-page release.
+
 - Production build: passed (Next.js 16.3.4); all four localized pages are statically generated, with a dynamic, non-cacheable language-entry redirect.
 - TypeScript: passed as part of the production build.
 - Code checks: oxlint passed with no errors or warnings.

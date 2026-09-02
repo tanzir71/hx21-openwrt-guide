@@ -3,15 +3,17 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { BookOpen, ListOrdered } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { guidePath, type Locale, type View } from '@/lib/locale';
+import { guidePath, type Locale, type View, type Platform } from '@/lib/locale';
 export function GuideTabs({
   locale,
   view,
+  platform,
   labels,
   children,
 }: {
   locale: Locale;
   view: View;
+  platform: Platform;
   labels: { findings: string; steps: string };
   children: React.ReactNode;
 }) {
@@ -22,7 +24,7 @@ export function GuideTabs({
       className="guide-tabs"
       onValueChange={(value) => {
         if (value === 'findings' || value === 'steps')
-          router.push(guidePath(locale, value), { scroll: false });
+          router.push(guidePath(locale, value, platform), { scroll: false });
       }}
     >
       <TabsList
@@ -33,7 +35,12 @@ export function GuideTabs({
         <TabsTrigger
           value="findings"
           nativeButton={false}
-          render={<Link href={guidePath(locale)} scroll={false} />}
+          render={
+            <Link
+              href={guidePath(locale, 'findings', platform)}
+              scroll={false}
+            />
+          }
         >
           <BookOpen aria-hidden="true" />
           {labels.findings}
@@ -41,7 +48,9 @@ export function GuideTabs({
         <TabsTrigger
           value="steps"
           nativeButton={false}
-          render={<Link href={guidePath(locale, 'steps')} scroll={false} />}
+          render={
+            <Link href={guidePath(locale, 'steps', platform)} scroll={false} />
+          }
         >
           <ListOrdered aria-hidden="true" />
           {labels.steps}

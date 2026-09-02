@@ -7,13 +7,16 @@ import {
   languageCookie,
   type Locale,
   type View,
+  type Platform,
 } from '@/lib/locale';
 export function LanguageSwitcher({
   locale,
   view,
+  platform = 'mac',
 }: {
   locale: Locale;
   view: View;
+  platform?: Platform;
 }) {
   return (
     <div
@@ -28,7 +31,7 @@ export function LanguageSwitcher({
           nativeButton={false}
           render={
             <a
-              href={publicPath(guidePath(lang, view))}
+              href={publicPath(guidePath(lang, view, platform))}
               hrefLang={lang}
               lang={lang}
               aria-label={lang === 'en' ? 'English' : 'বাংলা'}

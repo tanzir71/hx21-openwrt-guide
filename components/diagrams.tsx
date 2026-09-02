@@ -13,7 +13,7 @@ import {
   TriangleAlert,
   Wifi,
 } from 'lucide-react';
-import type { Locale } from '@/lib/locale';
+import type { Locale, Platform } from '@/lib/locale';
 import { publicPath } from '@/lib/paths';
 import type { Step } from '@/lib/content';
 import Image from 'next/image';
@@ -42,9 +42,11 @@ const artwork = {
 export function StepDiagram({
   type,
   locale,
+  platform,
 }: {
   type: Step['visual'];
   locale: Locale;
+  platform: Platform;
 }) {
   const art = type in artwork ? artwork[type as keyof typeof artwork] : null;
   return (
@@ -65,11 +67,17 @@ export function StepDiagram({
           </figcaption>
         </figure>
       ) : null}
-      <TechnicalDiagram type={type} locale={locale} />
+      <TechnicalDiagram type={type} locale={locale} platform={platform} />
     </>
   );
 }
-export function NetworkDiagram({ locale }: { locale: Locale }) {
+export function NetworkDiagram({
+  locale,
+  platform,
+}: {
+  locale: Locale;
+  platform: Platform;
+}) {
   const bn = locale === 'bn';
   return (
     <figure className="diagram network-diagram">
@@ -81,9 +89,17 @@ export function NetworkDiagram({ locale }: { locale: Locale }) {
       <div className="network-flow">
         <div>
           <Laptop aria-hidden="true" />
-          <strong>Mac</strong>
+          <strong>{platform === 'windows' ? 'Windows PC' : 'Mac'}</strong>
           <code>192.168.1.254</code>
-          <small>{bn ? 'অস্থায়ী alias' : 'Temporary alias'}</small>
+          <small>
+            {platform === 'windows'
+              ? bn
+                ? 'দ্বিতীয় IPv4 ঠিকানা'
+                : 'Second IPv4 address'
+              : bn
+                ? 'অস্থায়ী alias'
+                : 'Temporary alias'}
+          </small>
           <code>192.168.10.2</code>
         </div>
         <div className="cable-flow">
@@ -110,12 +126,15 @@ export function NetworkDiagram({ locale }: { locale: Locale }) {
 function TechnicalDiagram({
   type,
   locale,
+  platform,
 }: {
   type: Step['visual'];
   locale: Locale;
+  platform: Platform;
 }) {
   const bn = locale === 'bn';
-  if (type === 'network') return <NetworkDiagram locale={locale} />;
+  if (type === 'network')
+    return <NetworkDiagram locale={locale} platform={platform} />;
   if (type === 'backup')
     return (
       <figure className="diagram">
@@ -134,7 +153,7 @@ function TechnicalDiagram({
           <ArrowRight />
           <div>
             <Laptop />
-            <b>Mac</b>
+            <b>{platform === 'windows' ? 'Windows PC' : 'Mac'}</b>
           </div>
           <span>+</span>
           <div>

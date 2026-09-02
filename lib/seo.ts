@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { guidePath, type Locale, type View } from './locale';
+import { guidePath, type Locale, type View, type Platform } from './locale';
 import { reviewed, sources } from './content';
 import { publicPath } from './paths';
 const configuredOrigin =
@@ -12,19 +12,25 @@ export const indexable =
   siteOrigin.startsWith('https://') &&
   (process.env.VERCEL_ENV === 'production' ||
     (!process.env.VERCEL_ENV && process.env.NODE_ENV === 'production'));
-export function pageMetadata(locale: Locale, view: View): Metadata {
+export function pageMetadata(
+  locale: Locale,
+  view: View,
+  platform: Platform = 'mac',
+): Metadata {
   const bn = locale === 'bn';
+  const computer = platform === 'windows' ? 'Windows' : bn ? 'ম্যাক' : 'Mac';
+  const computerPossessive = platform === 'windows' ? 'Windows-এর' : 'ম্যাকের';
   const title = bn
     ? view === 'steps'
-      ? 'HX21-এ OpenWrt: ম্যাকের জন্য ছবিতে ধাপে ধাপে'
-      : 'HX21 OpenWrt গাইড: গবেষণা, সতর্কতা ও ম্যাক ব্যাকআপ'
+      ? `HX21-এ OpenWrt: ${computerPossessive} জন্য ছবিতে ধাপে ধাপে`
+      : `HX21 OpenWrt গাইড: গবেষণা, সতর্কতা ও ${computer} ব্যাকআপ`
     : view === 'steps'
-      ? 'HX21 OpenWrt: Visual Mac Installation Walkthrough'
-      : 'HX21 OpenWrt Guide: Findings, Risks & Mac Backups';
+      ? `HX21 OpenWrt: Visual ${computer} Installation Walkthrough`
+      : `HX21 OpenWrt Guide: Findings, Risks & ${computer} Backups`;
   const description = bn
-    ? 'Imou HX21-এ OpenWrt ইনস্টলের সূত্রসহ বাংলা গাইড। ম্যাকের তারযুক্ত সংযোগ, Factory ব্যাকআপ, SSH ঝুঁকি, TFTP ও প্রথম বুট বুঝুন।'
-    : 'A source-linked Imou HX21 OpenWrt guide for Mac: native support, SSH and MAC risks, private Factory backups, TFTP recovery and first-boot checks.';
-  const url = siteOrigin + publicPath(guidePath(locale, view));
+    ? `Imou HX21-এ OpenWrt ইনস্টলের সূত্রসহ বাংলা গাইড। ${computerPossessive} তারযুক্ত সংযোগ, Factory ব্যাকআপ, SSH ঝুঁকি, TFTP ও প্রথম বুট বুঝুন।`
+    : `A source-linked Imou HX21 OpenWrt guide for ${computer}: native support, SSH and MAC risks, private Factory backups, TFTP recovery and first-boot checks.`;
+  const url = siteOrigin + publicPath(guidePath(locale, view, platform));
   const image = {
     url: siteOrigin + publicPath('/og.png'),
     width: 1730,
@@ -39,10 +45,15 @@ export function pageMetadata(locale: Locale, view: View): Metadata {
     alternates: {
       canonical: url,
       languages: {
-        en: siteOrigin + publicPath(guidePath('en', view)),
-        bn: siteOrigin + publicPath(guidePath('bn', view)),
+        en: siteOrigin + publicPath(guidePath('en', view, platform)),
+        bn: siteOrigin + publicPath(guidePath('bn', view, platform)),
         'x-default':
-          siteOrigin + publicPath(view === 'steps' ? '/en/steps' : '/'),
+          siteOrigin +
+          publicPath(
+            platform === 'mac' && view === 'findings'
+              ? '/'
+              : guidePath('en', view, platform),
+          ),
       },
     },
     robots: { index: indexable, follow: true },
@@ -76,14 +87,23 @@ export function pageMetadata(locale: Locale, view: View): Metadata {
     },
   };
 }
-export function articleSchema(locale: Locale, view: View) {
-  const metadata = pageMetadata(locale, view);
+export function articleSchema(
+  locale: Locale,
+  view: View,
+  platform: Platform = 'mac',
+) {
+  const metadata = pageMetadata(locale, view, platform);
   return {
     '@context': 'https://schema.org',
     '@type': 'TechArticle',
     headline: metadata.title,
     description: metadata.description,
-    url: siteOrigin + publicPath(guidePath(locale, view)),
+    url: siteOrigin + publicPath(guidePath(locale, view, platform)),
+    contributor: {
+      '@type': 'Person',
+      name: 'Tanzir Rahman',
+      url: 'https://tanziro.com/',
+    },
     inLanguage: locale,
     dateModified: reviewed,
     image: siteOrigin + publicPath('/og.png'),

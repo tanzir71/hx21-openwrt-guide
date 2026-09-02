@@ -1,6 +1,7 @@
 export const locales = ['en', 'bn'] as const;
 export type Locale = (typeof locales)[number];
 export type View = 'findings' | 'steps';
+export type Platform = 'mac' | 'windows';
 export const preferenceCookie = 'hx21-language-v1';
 export function isLocale(value: unknown): value is Locale {
   return value === 'en' || value === 'bn';
@@ -13,8 +14,12 @@ export function chooseLocale(
   if (isLocale(preference)) return preference;
   return country?.trim().toUpperCase() === 'BD' ? 'bn' : 'en';
 }
-export function guidePath(locale: Locale, view: View = 'findings') {
-  return `/${locale}${view === 'steps' ? '/steps' : ''}`;
+export function guidePath(
+  locale: Locale,
+  view: View = 'findings',
+  platform: Platform = 'mac',
+) {
+  return `/${locale}${platform === 'windows' ? '/windows' : ''}${view === 'steps' ? '/steps' : ''}`;
 }
 export function languageCookie(locale: Locale, secure: boolean) {
   return `${preferenceCookie}=${locale}; Path=/; Max-Age=31536000; SameSite=Lax${secure ? '; Secure' : ''}`;

@@ -31,7 +31,12 @@ for (const [cookie, locale] of [
 const files = new Set();
 const publicUrl = new URL('https://pages.test' + basePath + '/');
 for (const locale of ['en', 'bn']) {
-  for (const route of [locale, `${locale}/steps`]) {
+  for (const route of [
+    locale,
+    `${locale}/steps`,
+    `${locale}/windows`,
+    `${locale}/windows/steps`,
+  ]) {
     const html = await readFile(join(out, route, 'index.html'), 'utf8');
     assert.match(html, new RegExp(`<html lang="${locale}"`));
     assert.match(html, /rel="canonical"/);
@@ -39,6 +44,16 @@ for (const locale of ['en', 'bn']) {
     assert.ok(html.includes(`${basePath}/favicon.svg`));
     assert.ok(html.includes(`${basePath}/downloads/`));
     assert.ok(html.includes('GitHub Pages'));
+    assert.ok(html.includes('href="https://tanziro.com/"'));
+    assert.ok(html.includes('aria-current="page"'));
+    const windows = route.includes('/windows');
+    assert.ok(html.includes(windows ? 'hx21-windows-kit-' : 'hx21-mac-kit-'));
+    assert.ok(!html.includes(windows ? 'hx21-mac-kit-' : 'hx21-windows-kit-'));
+    const suffix =
+      (windows ? '/windows' : '') + (route.endsWith('/steps') ? '/steps' : '');
+    for (const language of ['en', 'bn'])
+      assert.ok(html.includes(`${basePath}/${language}${suffix}`));
+    if (windows) assert.doesNotMatch(html, /shasum -a 256/);
     assert.doesNotMatch(html, /http:\/\/localhost/);
     assert.doesNotMatch(
       html,
@@ -85,13 +100,19 @@ assert.ok(fontChecked);
 await access(join(out, '.nojekyll'));
 await access(join(out, '404.html'));
 const xml = await readFile(join(out, 'sitemap.xml'), 'utf8');
-assert.equal((xml.match(/<url>/g) || []).length, 4);
+assert.equal((xml.match(/<url>/g) || []).length, 8);
 assert.ok(xml.includes(`${basePath}/bn/steps`));
-const manifest = JSON.parse(
-  await readFile(join(out, 'downloads/artifact-manifest.json'), 'utf8'),
-);
-const zip = await readFile(join(out, 'downloads', manifest.name));
-assert.equal(createHash('sha256').update(zip).digest('hex'), manifest.sha256);
+assert.ok(xml.includes(`${basePath}/bn/windows/steps`));
+for (const name of [
+  'artifact-manifest.json',
+  'windows-artifact-manifest.json',
+]) {
+  const manifest = JSON.parse(
+    await readFile(join(out, 'downloads', name), 'utf8'),
+  );
+  const zip = await readFile(join(out, 'downloads', manifest.name));
+  assert.equal(createHash('sha256').update(zip).digest('hex'), manifest.sha256);
+}
 console.log(
-  'PASS: static entry preference, all four complete pages, subpath navigation/assets, Baloo Da 2 bytes, sitemap, 404 and ZIP integrity.',
+  'PASS: static entry preference, all eight OS/language/view pages, matching downloads, footer credit, subpath navigation/assets, Baloo Da 2 bytes, sitemap, 404 and both ZIP hashes.',
 );

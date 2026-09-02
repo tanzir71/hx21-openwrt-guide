@@ -1,0 +1,110 @@
+{
+  "name": "hx21-windows-kit-25.12.5-backup.zip",
+  "bytes": 29623269,
+  "sha256": "33016c62d8166f796122dbe33bb1b559736af5c84e7ccb387057589cd6acb1df",
+  "prepared": "2026-09-03",
+  "platform": "windows",
+  "sourceArchiveSha256": "c167fc6ac4ac7b6950cc0780a3de33ac996ecfc2269f7ca9354087e15de63b49",
+  "files": [
+    {
+      "path": "DEVICE-WORKSHEET.md",
+      "bytes": 353,
+      "sha256": "a4f46c1107922d8d29f217085aefa9fc918cf7aa3b24f509fb206e91f3a3588f"
+    },
+    {
+      "path": "firmware/openwrt-25.12.5-mediatek-filogic-imou_hx21-bl31-uboot.fip",
+      "bytes": 804596,
+      "sha256": "6b203411e71692343518c5b97e54c48f4a4c3bfc7925b376aafc5b149cbf598b"
+    },
+    {
+      "path": "firmware/openwrt-25.12.5-mediatek-filogic-imou_hx21-initramfs-recovery.itb",
+      "bytes": 9109504,
+      "sha256": "27b296ae93d86bc3d84d3c15cdb45ec0e30e21088b5642421dbccefddb433eec"
+    },
+    {
+      "path": "firmware/openwrt-25.12.5-mediatek-filogic-imou_hx21-preloader.bin",
+      "bytes": 230232,
+      "sha256": "ad13725b82566ebd6b6a0cc37b83a0b9f17b8685702f32efc02fefff4126b1fc"
+    },
+    {
+      "path": "firmware/openwrt-25.12.5-mediatek-filogic-imou_hx21-squashfs-sysupgrade.itb",
+      "bytes": 10969346,
+      "sha256": "4e6dff2db0ae3e497b1d82f534458d9240ac989c67365ba4082811a47123a247"
+    },
+    {
+      "path": "firmware/SHA256SUMS-HX21.txt",
+      "bytes": 512,
+      "sha256": "83ae3f7cb114d8692513dd6c8ccca973d12c0286608c50698ff3de01835fc0b3"
+    },
+    {
+      "path": "optional-ssh-unlock/HX21-ssh.bin",
+      "bytes": 15296,
+      "sha256": "88d56f7d610a1cb32485527364cd23f120624a2f06e0f8fad6311c7c764434d0"
+    },
+    {
+      "path": "optional-ssh-unlock/READ-BEFORE-USING.md",
+      "bytes": 3326,
+      "sha256": "8233e888cd8e5ec37e4244cac4f9499d37c5570c2e1418a106e2fdb0cf149a40"
+    },
+    {
+      "path": "README-BN.md",
+      "bytes": 2395,
+      "sha256": "610e5f82cb83cc71a2464583e503a11c071d1c42ce7a4aa49688cf801fd6bda2"
+    },
+    {
+      "path": "scripts/Backup-Stock.ps1",
+      "bytes": 3790,
+      "sha256": "8b6e42bc408c1726d7998b6b6f319cff8e3955f3412de04b709b31e85ef4651c"
+    },
+    {
+      "path": "scripts/Verify-Files.ps1",
+      "bytes": 1774,
+      "sha256": "af51bddb52621b30b481a99f13af07011bea644d6ec3621728936309d82136b6"
+    },
+    {
+      "path": "sources/EXTRA-FILES-SHA256.txt",
+      "bytes": 422,
+      "sha256": "b4cb0b064100d5cf190b9967063d721f8cbdafd2f32f5f7016426e8f37723afd"
+    },
+    {
+      "path": "sources/openwrt-build-system-nitrokey3.asc",
+      "bytes": 3139,
+      "sha256": "334d8760642bf986e87ffa4eef3860df11941c38241956a9ebc6d90f8ab6f9a3"
+    },
+    {
+      "path": "sources/profiles.json",
+      "bytes": 225340,
+      "sha256": "a1c448c58e8a1cca016ae0ce0d0d02e5f53b97e3b67a8d9e2ee4aee34e602dd2"
+    },
+    {
+      "path": "sources/PROVENANCE.md",
+      "bytes": 5259,
+      "sha256": "786adb93dafb1c11bd2dcd0a1c297d20d2cd2bc86fde819ff73148b946be9695"
+    },
+    {
+      "path": "sources/sha256sums",
+      "bytes": 253863,
+      "sha256": "e1b59cd8b77d4cfb4f784b21140a7825e194ae40c8d92d8b530ceacc0d02a38e"
+    },
+    {
+      "path": "sources/sha256sums.asc",
+      "bytes": 299,
+      "sha256": "c5b3ac28a0abe5209ed940219f63663683cd1478095aaa240cc7eb58c12f3c43"
+    },
+    {
+      "path": "sources/sha256sums.sig",
+      "bytes": 142,
+      "sha256": "267851b845918367016330997a7894c24ac99cb6d0d2aaf8f298df8ef56faa78"
+    },
+    {
+      "path": "START-HERE.md",
+      "bytes": 5255,
+      "sha256": "39b5033dd7acae40cd3a0353ef5fa055f95226627d6609886c0351bb81842a73"
+    },
+    {
+      "path": "tftp/openwrt-mediatek-filogic-imou_hx21-initramfs-recovery.itb",
+      "bytes": 9109504,
+      "sha256": "27b296ae93d86bc3d84d3c15cdb45ec0e30e21088b5642421dbccefddb433eec"
+    }
+  ]
+}

@@ -13,16 +13,23 @@ import {
   TriangleAlert,
 } from 'lucide-react';
 import { LanguageSwitcher } from './language-switcher';
+import { PlatformSwitcher } from './platform-switcher';
 import { GuideTabs } from './guide-tabs';
 import { CopyCode } from './copy-code';
 import { NetworkDiagram, StepDiagram } from './diagrams';
 import { MacFix } from './mac-fix';
-import { artifacts, findings, partitionRows, sources, ui } from '@/lib/content';
-import { faqs, steps } from '@/lib/steps';
+import { artifacts, partitionRows, sources } from '@/lib/content';
+import { faqs } from '@/lib/steps';
+import {
+  platformUi,
+  platformFindings,
+  platformSteps,
+} from '@/lib/platform-content';
 import { articleSchema } from '@/lib/seo';
-import { guidePath, type Locale, type View } from '@/lib/locale';
+import { guidePath, type Locale, type View, type Platform } from '@/lib/locale';
 import { publicPath, isStaticMirror } from '@/lib/paths';
-import manifest from '@/public/downloads/artifact-manifest.json';
+import macManifest from '@/public/downloads/artifact-manifest.json';
+import windowsManifest from '@/public/downloads/windows-artifact-manifest.json';
 
 const sourceNames: Record<keyof typeof sources, string> = {
   device: 'OpenWrt · HX21 device page',
@@ -41,6 +48,10 @@ const sourceNames: Record<keyof typeof sources, string> = {
   signatures: 'OpenWrt · release signatures',
   apk: 'OpenWrt · apk documentation',
   uart: 'GitHub · mtk_uartboot',
+  windowsSsh: 'Microsoft · OpenSSH Client',
+  powershell: 'Microsoft · PowerShell',
+  binaryStreams: 'Microsoft · binary redirection',
+  tftpd64: 'Tftpd64 · official repository',
 };
 function SourceLinks({ links }: { links: (keyof typeof sources)[] }) {
   return (
@@ -54,15 +65,22 @@ function SourceLinks({ links }: { links: (keyof typeof sources)[] }) {
     </div>
   );
 }
-function Research({ locale }: { locale: Locale }) {
-  const t = ui[locale],
+function Research({
+  locale,
+  platform,
+}: {
+  locale: Locale;
+  platform: Platform;
+}) {
+  const t = platformUi(locale, platform),
     bn = locale === 'bn';
+  const findings = platformFindings(locale, platform);
   return (
     <div className="document-layout">
       <aside className="contents-nav">
         <p>{t.onThisPage}</p>
         <nav aria-label={t.onThisPage}>
-          {findings[locale].map((finding, i) => (
+          {findings.map((finding, i) => (
             <a key={finding.id} href={'#' + finding.id}>
               <span>{String(i + 1).padStart(2, '0')}</span>
               {finding.title}
@@ -79,7 +97,7 @@ function Research({ locale }: { locale: Locale }) {
         </a>
       </aside>
       <div className="research-sections">
-        {findings[locale].map((finding, i) => (
+        {findings.map((finding, i) => (
           <section
             className="research-section"
             id={finding.id}
@@ -114,23 +132,30 @@ function Research({ locale }: { locale: Locale }) {
               </ul>
             ) : null}
             {finding.special === 'images' ? (
-              <div className="artifact-grid">
-                {artifacts.map((a) => (
-                  <div className="artifact" key={a.id}>
-                    <h4>
-                      <FileCheck size={17} />
-                      {a[locale]}
-                    </h4>
-                    <code className="filename">
-                      openwrt-25.12.5-mediatek-filogic-imou_hx21-{a.suffix}
-                    </code>
-                    <small>
-                      {a.size.toLocaleString('en-US')} {t.bytes}
-                    </small>
-                    <CopyCode text={a.hash} label="SHA-256" labels={t} />
-                  </div>
-                ))}
-              </div>
+              <>
+                <p className="platform-note">
+                  {bn
+                    ? 'এই চারটি রাউটার ইমেজ macOS ও Windows-এ একই। শুধু কম্পিউটারের হেল্পার কিট আলাদা।'
+                    : 'These four router images are identical for macOS and Windows. Only the computer helper kit differs.'}
+                </p>
+                <div className="artifact-grid">
+                  {artifacts.map((a) => (
+                    <div className="artifact" key={a.id}>
+                      <h4>
+                        <FileCheck size={17} />
+                        {a[locale]}
+                      </h4>
+                      <code className="filename">
+                        openwrt-25.12.5-mediatek-filogic-imou_hx21-{a.suffix}
+                      </code>
+                      <small>
+                        {a.size.toLocaleString('en-US')} {t.bytes}
+                      </small>
+                      <CopyCode text={a.hash} label="SHA-256" labels={t} />
+                    </div>
+                  ))}
+                </div>
+              </>
             ) : null}
             {finding.special === 'partitions' ? (
               <>
@@ -163,13 +188,16 @@ function Research({ locale }: { locale: Locale }) {
               </>
             ) : null}
             {finding.special === 'network' ? (
-              <NetworkDiagram locale={locale} />
+              <NetworkDiagram locale={locale} platform={platform} />
             ) : null}
             {finding.id === 'aftercare' ? <MacFix locale={locale} /> : null}
             <SourceLinks links={finding.links} />
           </section>
         ))}
-        <Link className="text-action" href={guidePath(locale, 'steps')}>
+        <Link
+          className="text-action"
+          href={guidePath(locale, 'steps', platform)}
+        >
           {t.nextGuide}
           <ArrowRight size={17} />
         </Link>
@@ -177,9 +205,16 @@ function Research({ locale }: { locale: Locale }) {
     </div>
   );
 }
-function Walkthrough({ locale }: { locale: Locale }) {
-  const t = ui[locale],
+function Walkthrough({
+  locale,
+  platform,
+}: {
+  locale: Locale;
+  platform: Platform;
+}) {
+  const t = platformUi(locale, platform),
     bn = locale === 'bn';
+  const steps = platformSteps(locale, platform);
   return (
     <>
       <div className="prepare-panel">
@@ -187,14 +222,14 @@ function Walkthrough({ locale }: { locale: Locale }) {
         <div>
           <h3>{t.prepare}</h3>
           <p>{t.prepareText}</p>
-          <Link href={guidePath(locale)}>
+          <Link href={guidePath(locale, 'findings', platform)}>
             {t.readFindings}
             <ArrowUpRight size={14} />
           </Link>
         </div>
       </div>
       <nav className="step-jump" aria-label={t.onThisPage}>
-        {steps[locale].map((step, i) => (
+        {steps.map((step, i) => (
           <a href={'#step-' + step.id} key={step.id}>
             <span>{i + 1}</span>
             {step.short}
@@ -202,7 +237,7 @@ function Walkthrough({ locale }: { locale: Locale }) {
         ))}
       </nav>
       <div className="walkthrough">
-        {steps[locale].map((step, i) => (
+        {steps.map((step, i) => (
           <section
             className={'walkthrough-step ' + (step.danger ? 'danger-step' : '')}
             id={'step-' + step.id}
@@ -220,6 +255,24 @@ function Walkthrough({ locale }: { locale: Locale }) {
               </div>
               <h3>{step.title}</h3>
               <p>{step.text}</p>
+              {platform === 'windows' &&
+              ['identify', 'backup', 'verify'].includes(step.id) ? (
+                <CopyCode
+                  label={
+                    bn
+                      ? 'Windows PC-তে · রাউটারের shell-এ নয়'
+                      : 'On the Windows PC · not in the router shell'
+                  }
+                  text={
+                    step.id === 'identify'
+                      ? '$PSVersionTable.PSVersion\nGet-Command ssh.exe'
+                      : step.id === 'backup'
+                        ? "pwsh -File .\\scripts\\Backup-Stock.ps1 -Destination 'D:\\HX21-private-backup-NEW'"
+                        : 'pwsh -File .\\scripts\\Verify-Files.ps1'
+                  }
+                  labels={t}
+                />
+              ) : null}
               <ul className="checklist">
                 {step.checklist.map((item) => (
                   <li key={item}>
@@ -238,7 +291,7 @@ function Walkthrough({ locale }: { locale: Locale }) {
               {step.id === 'finish' ? (
                 <Link
                   className="text-action mac-link"
-                  href={guidePath(locale) + '#mac-fix'}
+                  href={guidePath(locale, 'findings', platform) + '#mac-fix'}
                 >
                   {bn
                     ? 'MAC বদলে গেলে সংশোধিত নির্দেশনা দেখুন'
@@ -254,7 +307,11 @@ function Walkthrough({ locale }: { locale: Locale }) {
               ) : null}
             </div>
             <div className="step-visual">
-              <StepDiagram type={step.visual} locale={locale} />
+              <StepDiagram
+                type={step.visual}
+                locale={locale}
+                platform={platform}
+              />
               {step.id === 'verify' ? (
                 <CopyCode
                   label={
@@ -272,8 +329,9 @@ function Walkthrough({ locale }: { locale: Locale }) {
     </>
   );
 }
-function Archive({ locale }: { locale: Locale }) {
-  const t = ui[locale];
+function Archive({ locale, platform }: { locale: Locale; platform: Platform }) {
+  const t = platformUi(locale, platform);
+  const manifest = platform === 'windows' ? windowsManifest : macManifest;
   return (
     <section className="archive-section" id="backup-archive">
       <div>
@@ -311,14 +369,23 @@ function Archive({ locale }: { locale: Locale }) {
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a
           className="manifest-link"
-          href={publicPath('/downloads/artifact-manifest.json')}
+          href={publicPath(
+            '/downloads/' +
+              (platform === 'windows'
+                ? 'windows-artifact-manifest.json'
+                : 'artifact-manifest.json'),
+          )}
         >
           {t.zipContents}
           <ArrowUpRight size={12} />
         </a>
         <CopyCode text={manifest.sha256} label={t.hashLabel} labels={t} />
         <CopyCode
-          text={'shasum -a 256 ' + manifest.name}
+          text={
+            platform === 'windows'
+              ? "Get-FileHash '.\\" + manifest.name + "' -Algorithm SHA256"
+              : 'shasum -a 256 ' + manifest.name
+          }
           label={t.verifyZip}
           labels={t}
         />
@@ -326,17 +393,24 @@ function Archive({ locale }: { locale: Locale }) {
     </section>
   );
 }
-export function Guide({ locale, view }: { locale: Locale; view: View }) {
-  const t = ui[locale];
+export function Guide({
+  locale,
+  view,
+  platform = 'mac',
+}: {
+  locale: Locale;
+  view: View;
+  platform?: Platform;
+}) {
+  const t = platformUi(locale, platform);
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(articleSchema(locale, view)).replaceAll(
-            '<',
-            '\\u003c',
-          ),
+          __html: JSON.stringify(
+            articleSchema(locale, view, platform),
+          ).replaceAll('<', '\\u003c'),
         }}
       />
       <a className="skip-link" href="#guide">
@@ -344,7 +418,10 @@ export function Guide({ locale, view }: { locale: Locale; view: View }) {
       </a>
       <div className="wrap" id="top">
         <header className="site-header">
-          <Link className="brand" href={guidePath(locale)}>
+          <Link
+            className="brand"
+            href={guidePath(locale, 'findings', platform)}
+          >
             <span className="brand-mark" aria-hidden="true">
               H<span />
             </span>
@@ -355,9 +432,10 @@ export function Guide({ locale, view }: { locale: Locale; view: View }) {
               {t.official}
               <ArrowUpRight size={14} />
             </a>
-            <LanguageSwitcher locale={locale} view={view} />
+            <LanguageSwitcher locale={locale} view={view} platform={platform} />
           </div>
         </header>
+        <PlatformSwitcher locale={locale} view={view} platform={platform} />
         <main>
           <section className="hero">
             <div>
@@ -420,7 +498,12 @@ export function Guide({ locale, view }: { locale: Locale; view: View }) {
             </p>
           </div>
           <div id="guide">
-            <GuideTabs locale={locale} view={view} labels={t}>
+            <GuideTabs
+              locale={locale}
+              view={view}
+              platform={platform}
+              labels={t}
+            >
               <div className="content-intro">
                 <p className="eyebrow">
                   {view === 'findings' ? t.findingEyebrow : t.stepEyebrow}
@@ -433,13 +516,13 @@ export function Guide({ locale, view }: { locale: Locale; view: View }) {
                 </p>
               </div>
               {view === 'findings' ? (
-                <Research locale={locale} />
+                <Research locale={locale} platform={platform} />
               ) : (
-                <Walkthrough locale={locale} />
+                <Walkthrough locale={locale} platform={platform} />
               )}
             </GuideTabs>
           </div>
-          <Archive locale={locale} />
+          <Archive locale={locale} platform={platform} />
           <section className="faq-section">
             <p className="eyebrow">FAQ</p>
             <h2>{t.faqTitle}</h2>
@@ -474,6 +557,15 @@ export function Guide({ locale, view }: { locale: Locale; view: View }) {
           <div>
             <strong>HX21 / OPENWRT GUIDE</strong>
             <p>{t.footer}</p>
+            <p className="creator-credit">
+              {locale === 'bn'
+                ? 'সংকলন ও উপস্থাপনা: '
+                : 'Curated and presented by '}
+              <a href="https://tanziro.com/" rel="author">
+                {locale === 'bn' ? 'তানজির রহমান' : 'Tanzir Rahman'}{' '}
+                <ArrowUpRight size={13} aria-hidden="true" />
+              </a>
+            </p>
             <p className="privacy-note">
               {isStaticMirror ? t.staticPrivacy : t.privacy}
             </p>

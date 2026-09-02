@@ -486,6 +486,85 @@ html[lang='bn'] body {
 .language-switcher a[lang='bn'] {
   font-family: var(--font-baloo-da-2), 'Bangla Sangam MN', sans-serif;
 }
+.platform-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 22px 0 8px;
+  padding: 18px 20px;
+  border: 1px solid #dce3d7;
+  border-radius: 12px;
+  background: #f0f3eb;
+}
+.platform-intro > span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #426047;
+}
+.platform-intro p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #607064;
+}
+.platform-switcher {
+  display: flex;
+  padding: 4px;
+  gap: 4px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #d7dfd2;
+}
+.platform-switcher a[data-slot='button'] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  height: auto;
+  min-height: 42px;
+  border: 0;
+  border-radius: 7px;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #546456;
+  text-decoration: none;
+  background: transparent;
+}
+.platform-switcher a.platform-active[data-slot='button'] {
+  background: #244e41;
+  color: #fff;
+}
+.platform-switcher a:focus-visible {
+  outline: 3px solid #bc6745;
+  outline-offset: 3px;
+}
+.platform-note {
+  border-left: 3px solid #8baf94;
+  padding: 8px 14px;
+  background: #f1f5ed;
+}
+.creator-credit a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #244e41;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 560px) {
+  .platform-bar {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 16px;
+  }
+  .platform-switcher a[data-slot='button'] {
+    flex: 1;
+  }
+}
 html[lang='bn'] h1 {
   letter-spacing: -1px;
   line-height: 1.25;

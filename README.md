@@ -23,7 +23,16 @@ Bengali text uses self-hosted Baloo Da 2, with the original open font license bu
 
 - `/en` and `/bn`: nine detailed, source-linked research sections.
 - `/en/steps` and `/bn/steps`: eight installation checkpoints, four generated illustrations and precise text diagrams.
-- Both views include the dated backup-only ZIP, archive SHA-256, safety disclaimer, sources, FAQs and language privacy notice.
+- `/en/windows` and `/bn/windows`: Windows-specific findings; append `/steps` for the Windows walkthrough.
+- All eight pages include the matching OS backup-only ZIP, archive SHA-256, safety disclaimer, sources, FAQs and language privacy notice.
+
+## Computer selection and credit
+
+The macOS / Windows selector sits above the hero. OS selection is encoded in the URL, so it works without JavaScript and survives language/view changes, refreshes and sharing. Existing Mac URLs are unchanged; `/windows` selects Windows. A fresh visit to `/` still defaults to the Mac guide after language selection; there is no device sniffing or OS cookie.
+
+Windows pages replace the computer-specific network setup, TFTP, binary-backup, verification and cleanup instructions. Firmware images and router-side precautions are identical. The Windows download has PowerShell helpers and no macOS shell/`.command` helpers. It requires PowerShell 7.4+ for byte-preserving SSH redirection. See `docs/WINDOWS-REFERENCE-REVIEW.md` for sources and test limits.
+
+Both languages credit [Tanzir Rahman](https://tanziro.com/) in the footer. The structured article metadata lists him as a contributor; the guide remains independent, not official OpenWrt documentation.
 
 ## Language behavior
 
@@ -41,7 +50,9 @@ TEST_BASE_URL=http://localhost:3000 pnpm test
 pnpm build
 ```
 
-The tests check language logic and translation parity, all section/step counts, the exact ZIP allowlist, every archived byte count/hash, absence of private paths/SSH private keys, shell syntax, official pinned firmware hashes, and generated assets. HTTP mode also checks all four routes, redirects, metadata, sitemap, favicon and downloaded ZIP integrity. These are source/HTTP checks, not physical router testing or browser interaction/visual testing.
+The tests check language/OS logic and translation parity, all section/step counts, both exact ZIP allowlists, every archived byte count/hash, absence of private paths/SSH private keys, helper source checks, official pinned firmware hashes, and generated assets. HTTP mode also checks all eight routes, selected OS and language/view links, OS-specific commands/downloads, footer credit, metadata, sitemap, favicon and both downloaded ZIP hashes. These are source/HTTP checks, not physical router testing or browser interaction/visual testing.
+
+Optional: with PowerShell 7.4+ installed, run `pnpm test:powershell` (or set `POWERSHELL_BIN` to its executable). This parses both Windows helpers and runs the file verifier with success and deliberate corruption/missing-record cases. It does not connect to a router or exercise Windows networking.
 
 ```sh
 curl -I -H 'x-vercel-ip-country: BD' http://localhost:3000/
@@ -75,8 +86,10 @@ Illustrations are explicitly labeled conceptual: they do not show verified HX21 
 
 ## Public backup archive
 
-`public/downloads/` contains the 25.12.5 backup ZIP, checksum file and full per-file manifest. It is a sanitized allowlisted copy of the research kit, not a copy of the user's router. Never add private worksheets, credentials, SSH state, host keys or stock NAND/Factory backups to this repository or archive.
+`public/downloads/` contains separate macOS (40 files) and Windows (20 files) 25.12.5 backup ZIPs, checksum files and full per-file manifests. These are sanitized allowlisted preparation kits, not copies of the user's router. Never add private worksheets, credentials, SSH state, host keys or stock NAND/Factory backups to this repository or either archive.
 
 The kit includes optional community SSH-unlock configuration with a reported MAC-data risk. The four firmware image SHA-256 values matched official HTTPS records during preparation; **detached GPG signatures were not verified**. Recheck current official device instructions, releases and signatures before implementation. Shell helpers were syntax/offline checked, not run against a router.
 
 `scripts/prepare-artifacts.mjs` accepts a local source-kit folder, copies only an explicit allowlist, generates a blank worksheet, sanitizes source paths and refuses to reuse non-empty staging. It intentionally never traverses a user's backup or SSH-state folder. Do not rebuild the archive without reviewing the source and updating its verification record.
+
+`pnpm artifacts:windows` builds the Windows archive from the already-public Mac ZIP's allowlisted shared files plus the reviewed sources in `artifacts/windows/` and a blank worksheet. It verifies the source ZIP and each shared file hash before packaging; it never reads the private Desktop kit. Regenerating changes the archive hash, so rerun the tests and update its verification record.
