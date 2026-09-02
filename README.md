@@ -2,6 +2,12 @@
 
 Bilingual Next.js site with a full Vercel deployment and a static GitHub Pages build. This is independent research, not official installation guidance or a safety guarantee. See `docs/DEPLOYMENT.md` for hosting setup and verification.
 
+- [Vercel production](https://hx21-openwrt-guide.vercel.app/)
+- [GitHub Pages mirror](https://tanzir71.github.io/hx21-openwrt-guide/)
+- [Source repository](https://github.com/tanzir71/hx21-openwrt-guide)
+
+Published and live-checked on 3 September 2026 (Asia/Dhaka). GitHub Pages updates automatically on pushes to `main`. The Vercel production deployment is live, but its GitHub auto-deploy connection could not be established; publish updates with the CLI until that connection is authorized/configured.
+
 ## Run on a Mac
 
 Install Node.js 22.13 or later and pnpm, then from this folder:

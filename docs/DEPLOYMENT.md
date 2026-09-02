@@ -2,6 +2,18 @@
 
 The user authorized public GitHub Pages and Vercel hosting, including a new public repository named `tanzir71/hx21-openwrt-guide`.
 
+## Published — 3 September 2026 (Asia/Dhaka)
+
+- Vercel production: https://hx21-openwrt-guide.vercel.app/
+- GitHub Pages: https://tanzir71.github.io/hx21-openwrt-guide/
+- Public source: https://github.com/tanzir71/hx21-openwrt-guide
+- Deployed application commit: `3431f45598956f4508b2f02a1e8e26490296dd42`.
+- GitHub Pages workflow: https://github.com/tanzir71/hx21-openwrt-guide/actions/runs/33668119848 — succeeded, including archive and static-export checks.
+- Vercel deployment: `dpl_FXvQSoenYiwPiYREYQFaAaM3nQbP` — READY, production; remote build completed in approximately 31 seconds.
+- Live HTTP checks passed on both hosts for all four pages, production canonical/indexing metadata, public entry behavior, navigation assets, exact Baloo Da 2 bytes and downloaded ZIP SHA-256. Saved language precedence was verified on Vercel. No browser-interaction or physical-router testing was performed.
+- Vercel's production error-log query returned no logs. No dedicated monitoring or log drains were configured as part of this deployment.
+- GitHub Pages is configured to publish through Actions with HTTPS enforced. Vercel's optional GitHub connection failed twice; this does not affect the successful CLI production deployment. Automatic Vercel deploys are **not** enabled. Resolve GitHub integration access for this repository in Vercel before relying on push-to-deploy there.
+
 ## Two build targets
 
 - Vercel uses `pnpm build`. The `/` endpoint chooses the saved language first, then Vercel's country header. Explicit localized routes remain stable.

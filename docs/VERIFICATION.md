@@ -17,4 +17,6 @@ Limits: no physical router, flashing, network-setting change, real Vercel geoloc
 - GitHub Pages static export passed, with all four localized pages. Export tests validated cookie-based entry selection, project-subpath navigation, local asset resolution, the exact Baloo Da 2 font bytes, sitemap, 404 output and backup ZIP integrity.
 - The React review preserved server-rendered content, existing client component boundaries and event-driven language selection; no additional client fetching or state was introduced.
 - Initial public source set was inspected for private paths and credentials. Local staging, environment files, original Desktop kit, unused font and generated build directories are excluded.
-- Publication is awaiting the user's GitHub and Vercel CLI sign-ins. No live-host verification has been completed yet.
+- Both CLI sign-ins succeeded and both hosts are published. See `DEPLOYMENT.md` for production URLs, deployment details and the outstanding optional Vercel GitHub auto-deploy connection.
+- Live HTTP checks passed on Vercel and GitHub Pages: public entry behavior, all four English/Bengali pages, canonical/indexing metadata, linked assets, exact Baloo Da 2 font bytes and the full downloaded backup ZIP SHA-256. Vercel cookie precedence passed. GitHub Actions also passed the archive and static-export tests before publishing.
+- The Vercel error-log query returned no logs. No browser-interaction/visual QA, external-location geolocation test or physical-router test was performed.
