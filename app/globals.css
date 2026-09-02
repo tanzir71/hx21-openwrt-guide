@@ -946,6 +946,9 @@ td {
   font-size: 13px;
   line-height: 1.85;
 }
+.prepare-panel .prepare-howto-note {
+  margin-top: 10px;
+}
 .prepare-panel a {
   display: inline-flex;
   gap: 5px;
@@ -984,7 +987,7 @@ td {
 .walkthrough-step {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 56px;
+  gap: 24px 56px;
   padding: 42px 0 46px;
   border-bottom: 1px solid var(--border);
   align-items: start;
@@ -1070,6 +1073,160 @@ td {
   background: #fff0e7;
   border-left-color: #cf7850;
   color: #8b5134;
+}
+.step-how-to {
+  grid-column: 1 / -1;
+  min-width: 0;
+  border: 1px solid #d6dfcf;
+  border-radius: 10px;
+  background: #fafbf7;
+  scroll-margin-top: 18px;
+}
+.step-how-to > summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  cursor: pointer;
+  list-style: none;
+  color: #3e5d42;
+  border-radius: 10px;
+}
+.step-how-to > summary::-webkit-details-marker {
+  display: none;
+}
+.step-how-to > summary:hover {
+  background: #edf2e9;
+}
+.step-how-to > summary:focus-visible {
+  outline: 2px solid #496b4d;
+  outline-offset: 3px;
+}
+.step-how-to > summary > span {
+  flex: 1;
+  min-width: 0;
+}
+.step-how-to > summary strong,
+.step-how-to > summary small {
+  display: block;
+  line-height: 1.6;
+}
+.step-how-to > summary strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+.step-how-to > summary small {
+  font-size: 12px;
+  color: #62745e;
+}
+.step-how-to[open] .howto-chevron {
+  transform: rotate(180deg);
+}
+.howto-content {
+  border-top: 1px solid #dce3d4;
+  padding: clamp(16px, 3vw, 30px);
+  color: #4f604e;
+  font-size: 14px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+.howto-content p {
+  margin: 0 0 12px;
+}
+.howto-content .howto-intro {
+  color: #334a37;
+}
+.howto-content .howto-command-note {
+  font-size: 12px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e0e6da;
+}
+.howto-items {
+  list-style: decimal;
+  margin: 0;
+  padding: 0 0 0 24px;
+}
+.howto-items > li {
+  display: list-item;
+  padding: 20px 0 20px 10px;
+  border-bottom: 1px solid #e0e6da;
+}
+.howto-items > li::marker {
+  font-weight: 600;
+  color: #4c6848;
+}
+.howto-items > li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.howto-item-body {
+  min-width: 0;
+  flex: 1;
+}
+.howto-content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #334a37;
+  line-height: 1.6;
+  margin: 0 0 10px;
+}
+.howto-content .code-block {
+  margin: 14px 0;
+}
+.howto-content .code-label {
+  font-size: 12px;
+  letter-spacing: 0;
+  color: #405938;
+  font-weight: 600;
+}
+.howto-content .code-row > code {
+  font-size: 12px;
+}
+.howto-content .code-row button {
+  min-width: 40px;
+  min-height: 40px;
+}
+.howto-content .howto-expected,
+.howto-content .howto-caution {
+  padding: 12px 15px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+.howto-expected {
+  background: #edf2e8;
+  border-left: 2px solid #91a481;
+}
+.howto-caution {
+  background: #fff1e8;
+  border-left: 2px solid #c7835f;
+  color: #865337;
+}
+.howto-expected strong,
+.howto-caution strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.howto-problems {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid #d6dfcf;
+}
+.howto-problems dl {
+  margin: 0;
+}
+.howto-problems dl > div {
+  padding: 12px 0;
+  border-bottom: 1px solid #e0e6da;
+}
+.howto-problems dt {
+  font-size: 12px;
+  font-weight: 600;
+  color: #885436;
+}
+.howto-problems dd {
+  margin: 6px 0 0;
+  font-size: 13px;
 }
 .official-button {
   display: inline-flex;

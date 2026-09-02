@@ -1,5 +1,15 @@
 # Verification — 2 September 2026
 
+## Beginner how-to panels — 3 September 2026
+
+- Added practical, localized instructions to all eight walkthrough steps for both macOS and Windows. Native details/summary panels keep the complete content server-rendered and usable without JavaScript. Connect and Access start expanded; copy buttons do not execute commands.
+- Regression checks cover all help IDs, nonempty instructions/references, computer-versus-router labels, one command per copy block, stock SSH command, four SSH troubleshooting cases, alias-helper/Windows GUI differences and absence of new flash-write/host-verification-bypass commands.
+- Local HTTP tests passed for all eight routes, including eight help panels on every walkthrough and exactly the two intended expanded panels. Existing navigation, language, downloads, font, metadata and artwork checks passed.
+- Both public ZIPs remain byte-for-byte unchanged. The existing archive/hash/privacy/source checks and lint passed.
+- Production build/TypeScript and isolated GitHub Pages build/static checks passed, including all four localized OS walkthroughs and their new help panels.
+- React review preserved server component boundaries, native list/disclosure semantics and only the existing clipboard interaction. New copy controls receive only the three necessary status strings, not the complete UI dictionary.
+- Technical references, conditional stock-password scope and remaining official-procedure/signature-verification boundaries are recorded in `WALKTHROUGH-REFERENCE-REVIEW.md`. No physical device, network changes, browser-interaction or visual QA was performed.
+
 ## OS selector update — 3 September 2026
 
 - macOS/Windows selection is server-rendered above the hero and encoded in the URL. Existing Mac URLs are preserved; four Windows pages bring the total to eight. Language, view, brand and MAC-troubleshooting links preserve the selected OS.

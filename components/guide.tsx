@@ -18,6 +18,8 @@ import { GuideTabs } from './guide-tabs';
 import { CopyCode } from './copy-code';
 import { NetworkDiagram, StepDiagram } from './diagrams';
 import { MacFix } from './mac-fix';
+import { StepHowTo } from './step-how-to';
+import { walkthroughHelp } from '@/lib/walkthrough-help';
 import { artifacts, partitionRows, sources } from '@/lib/content';
 import { faqs } from '@/lib/steps';
 import {
@@ -215,6 +217,7 @@ function Walkthrough({
   const t = platformUi(locale, platform),
     bn = locale === 'bn';
   const steps = platformSteps(locale, platform);
+  const help = walkthroughHelp(locale, platform);
   return (
     <>
       <div className="prepare-panel">
@@ -222,6 +225,11 @@ function Walkthrough({
         <div>
           <h3>{t.prepare}</h3>
           <p>{t.prepareText}</p>
+          <p className="prepare-howto-note">
+            {bn
+              ? 'প্রতি ধাপে “আসলে কীভাবে করবেন” খুলে বিস্তারিত দেখুন। Network ও SSH-এর নির্দেশনা আগে থেকেই খোলা আছে।'
+              : 'Open “How to actually do this” at each step for the details. Network and SSH instructions are already expanded.'}
+          </p>
           <Link href={guidePath(locale, 'findings', platform)}>
             {t.readFindings}
             <ArrowUpRight size={14} />
@@ -255,24 +263,6 @@ function Walkthrough({
               </div>
               <h3>{step.title}</h3>
               <p>{step.text}</p>
-              {platform === 'windows' &&
-              ['identify', 'backup', 'verify'].includes(step.id) ? (
-                <CopyCode
-                  label={
-                    bn
-                      ? 'Windows PC-তে · রাউটারের shell-এ নয়'
-                      : 'On the Windows PC · not in the router shell'
-                  }
-                  text={
-                    step.id === 'identify'
-                      ? '$PSVersionTable.PSVersion\nGet-Command ssh.exe'
-                      : step.id === 'backup'
-                        ? "pwsh -File .\\scripts\\Backup-Stock.ps1 -Destination 'D:\\HX21-private-backup-NEW'"
-                        : 'pwsh -File .\\scripts\\Verify-Files.ps1'
-                  }
-                  labels={t}
-                />
-              ) : null}
               <ul className="checklist">
                 {step.checklist.map((item) => (
                   <li key={item}>
@@ -322,6 +312,13 @@ function Walkthrough({
                 />
               ) : null}
             </div>
+            <StepHowTo
+              id={step.id}
+              help={help[step.id]}
+              locale={locale}
+              platform={platform}
+              labels={t}
+            />
           </section>
         ))}
       </div>

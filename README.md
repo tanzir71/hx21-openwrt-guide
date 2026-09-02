@@ -28,6 +28,8 @@ Bengali text uses self-hosted Baloo Da 2, with the original open font license bu
 - `/en/windows` and `/bn/windows`: Windows-specific findings; append `/steps` for the Windows walkthrough.
 - All eight pages include the matching OS backup-only ZIP, archive SHA-256, safety disclaimer, sources, FAQs and language privacy notice.
 
+Each walkthrough step now has a server-rendered **How to actually do this** panel, with computer/router command labels, exact setup clicks, expected results and stop conditions. Network alias and stock SSH panels start expanded. Instructions adapt to both operating systems and languages; they explain the existing helpers without executing them. Model-specific flash writes still require the official device procedure. See `docs/WALKTHROUGH-REFERENCE-REVIEW.md` for sources and limits.
+
 ## Computer selection and credit
 
 The macOS / Windows selector sits above the hero. OS selection is encoded in the URL, so it works without JavaScript and survives language/view changes, refreshes and sharing. Existing Mac URLs are unchanged; `/windows` selects Windows. A fresh visit to `/` still defaults to the Mac guide after language selection; there is no device sniffing or OS cookie.

@@ -60,6 +60,14 @@ for (const locale of ['en', 'bn']) {
       /href="\/(?:en|bn|downloads)|src="\/illustrations/,
     );
     if (route.endsWith('/steps')) {
+      assert.equal(
+        [...html.matchAll(/<details[^>]*class="step-how-to"[^>]*>/g)].length,
+        8,
+      );
+      assert.ok(html.includes('id="howto-connect"'));
+      assert.ok(html.includes('id="howto-access"'));
+      assert.ok(html.includes('ssh -o ConnectTimeout=5 root@192.168.10.1'));
+      assert.ok(html.includes(windows ? 'ncpa.cpl' : 'add-stock-address.sh'));
       for (const name of ['prepare', 'backup', 'verify', 'finish']) {
         assert.ok(html.includes(`${basePath}/illustrations/${name}.webp`));
       }

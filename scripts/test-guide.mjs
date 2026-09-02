@@ -48,6 +48,7 @@ assert.match(
 assert.doesNotMatch(languageCookie('bn', false), /Secure/);
 const { findings, artifacts, ui } = await loadTs('lib/content.ts');
 const { steps, faqs } = await loadTs('lib/steps.ts');
+const { walkthroughHelp } = await loadTs('lib/walkthrough-help.ts');
 const { platformFindings, platformSteps, platformUi } = await loadTs(
   'lib/platform-content.ts',
 );
@@ -62,6 +63,58 @@ for (const locale of ['en', 'bn']) {
     assert.ok(step.checkpoint.length > 30);
   }
   for (const platform of ['mac', 'windows']) {
+    const help = walkthroughHelp(locale, platform);
+    assert.deepEqual(
+      Object.keys(help),
+      steps[locale].map((step) => step.id),
+    );
+    for (const [id, detail] of Object.entries(help)) {
+      assert.ok(detail.intro.length > 50 && detail.items.length >= 2, id);
+      assert.ok(detail.references.length > 0, id);
+      for (const item of detail.items) {
+        assert.ok(
+          item.title && item.body.length && item.body.every(Boolean),
+          id,
+        );
+        for (const command of item.commands ?? []) {
+          assert.ok(['computer', 'router'].includes(command.where), id);
+          assert.ok(command.text && !command.text.includes('\n'), id);
+          assert.doesNotMatch(
+            command.text,
+            /mtd\s+write|dd\s+of=|sysupgrade\s|StrictHostKeyChecking=no/,
+            id,
+          );
+          if (platform === 'windows')
+            assert.doesNotMatch(
+              command.text,
+              /\/bin\/bash|shasum|networksetup/,
+            );
+          else assert.doesNotMatch(command.text, /\.ps1|Get-FileHash|ipconfig/);
+        }
+      }
+    }
+    assert.equal(help.access.problems.length, 4);
+    assert.ok(
+      help.access.items.some((item) =>
+        item.commands?.some(
+          (command) =>
+            command.where === 'computer' &&
+            command.text === 'ssh -o ConnectTimeout=5 root@192.168.10.1',
+        ),
+      ),
+    );
+    assert.ok(
+      help.access.items.some((item) =>
+        item.commands?.some(
+          (command) => command.where === 'router' && command.text === 'exit',
+        ),
+      ),
+    );
+    assert.match(JSON.stringify(help.connect), /255\.255\.255\.0/);
+    assert.match(
+      JSON.stringify(help.connect),
+      platform === 'mac' ? /add-stock-address\.sh/ : /ncpa\.cpl/,
+    );
     assert.equal(platformFindings(locale, platform).length, 9);
     assert.equal(platformSteps(locale, platform).length, 8);
     assert.equal(
@@ -351,9 +404,29 @@ if (process.env.TEST_BASE_URL) {
             : platformSteps(locale, platform).map((s) => 'step-' + s.id);
         for (const id of ids)
           assert.ok(html.includes('id="' + id + '"'), path + ' missing ' + id);
-        if (view === 'steps')
+        if (view === 'steps') {
+          const panels = [
+            ...html.matchAll(/<details[^>]*class="step-how-to"[^>]*>/g),
+          ].map((m) => m[0]);
+          assert.equal(panels.length, 8, path + ' detailed instructions');
+          assert.deepEqual(
+            panels
+              .filter((p) => /\sopen(?:[=>\s])/.test(p))
+              .map((p) => p.match(/id="([^"]+)"/)[1]),
+            ['howto-connect', 'howto-access'],
+          );
+          assert.ok(html.includes('ssh -o ConnectTimeout=5 root@192.168.10.1'));
+          assert.ok(html.includes('REMOTE HOST IDENTIFICATION HAS CHANGED'));
+          assert.ok(
+            html.includes(
+              locale === 'bn' ? 'রাউটারের ভেতরে' : 'Inside the router',
+            ),
+          );
+          for (const step of steps[locale])
+            assert.ok(html.includes('id="howto-' + step.id + '"'));
           for (const name of ['prepare', 'backup', 'verify', 'finish'])
             assert.ok(html.includes(name + '.webp'), path + ' missing ' + name);
+        }
       }
   const invalid = await fetch(base + '/fr');
   assert.equal(invalid.status, 404);
