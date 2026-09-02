@@ -10,6 +10,8 @@
 - PowerShell parser and real-file verifier tests passed on macOS with PowerShell 7.6.5, including deliberate corrupt/missing/duplicate data and TFTP-copy failures. The backup helper refused the non-Windows host. See `WINDOWS-REFERENCE-REVIEW.md` for scope and sources.
 - React review kept the OS control server-rendered with native accessible links, explicit current-page semantics and existing client boundaries. No client fetching, detection effect or hydration-dependent OS state was added.
 - No actual Windows machine, router, flash, network-settings change or browser interaction/visual QA was used for these checks.
+- Final production build, TypeScript and lint passed. A local Turbopack process-lookup failure cleared after setting aside its disposable production cache; the preview and source were preserved. The full local HTTP suite passed again afterward.
+- GitHub Pages workflow and live checks passed for this update. Vercel's attempt was blocked by commit-author access verification before publication; its previous release remains live. Deployment details and required account connection are recorded in `DEPLOYMENT.md`.
 
 The earlier verification history below describes the preceding four-page release.
 

@@ -2,7 +2,15 @@
 
 The user authorized public GitHub Pages and Vercel hosting, including a new public repository named `tanzir71/hx21-openwrt-guide`.
 
-## Published — 3 September 2026 (Asia/Dhaka)
+## OS-selector update — 3 September 2026 (Asia/Dhaka)
+
+- Application commit: `1eb9c5e2bf0ac2bef505266fecaf50983570596f`.
+- GitHub Pages workflow [33670123203](https://github.com/tanzir71/hx21-openwrt-guide/actions/runs/33670123203) succeeded. Live HTTP checks passed for all eight OS/language/view pages, selected OS and language links, OS-specific downloads, footer credit, canonical/indexing metadata, exact Baloo Da 2 bytes, 18 linked assets and both ZIP hashes.
+- Vercel deployment `dpl_HDEWSA6JDZ2g4PYv29FhqmmAsjT9` was **BLOCKED**, not published. API reason: commit author does not have permission to create deployments for this project; `seatBlock.blockCode` is `TEAM_ACCESS_REQUIRED` and `isVerified` is false. The CLI displayed UNKNOWN and waited, so the exact state was checked through its authenticated API.
+- GitHub correctly attributes the commit to `tanzir71` (ID 13024434). Vercel account `tanzir71` did not report a connected GitHub identity. The user must connect the correct GitHub account in [Vercel Authentication](https://vercel.com/account/authentication) and retry. See [Vercel's commit-author troubleshooting](https://vercel.com/docs/deployments/troubleshoot-project-collaboration).
+- The previous Vercel production deployment remains live. No deployment protection, team access, author identity, billing settings or project permissions were bypassed or changed.
+
+## Initial publication — 3 September 2026 (Asia/Dhaka)
 
 - Vercel production: https://hx21-openwrt-guide.vercel.app/
 - GitHub Pages: https://tanzir71.github.io/hx21-openwrt-guide/

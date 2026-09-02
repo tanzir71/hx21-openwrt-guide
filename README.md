@@ -8,6 +8,8 @@ Bilingual Next.js site with a full Vercel deployment and a static GitHub Pages b
 
 Published and live-checked on 3 September 2026 (Asia/Dhaka). GitHub Pages updates automatically on pushes to `main`. The Vercel production deployment is live, but its GitHub auto-deploy connection could not be established; publish updates with the CLI until that connection is authorized/configured.
 
+The OS-selector update is live and verified on **GitHub Pages**. Its Vercel deployment was blocked by commit-author access verification; Vercel still serves the preceding release. Connect GitHub `tanzir71` in [Vercel account authentication](https://vercel.com/account/authentication), then retry the deployment. No access-control settings were weakened.
+
 ## Run on a Mac
 
 Install Node.js 22.13 or later and pnpm, then from this folder:
