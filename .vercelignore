@@ -1,0 +1,11 @@
+work
+out
+outputs
+.next
+.git
+.github
+.openai
+.env*
+*.tsbuildinfo
+app/fonts/AnekBangla-Variable.ttf
+app/fonts/OFL-AnekBangla.txt

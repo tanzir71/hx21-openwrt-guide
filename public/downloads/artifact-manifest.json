@@ -1,0 +1,212 @@
+{
+  "name": "hx21-mac-kit-25.12.5-backup.zip",
+  "version": "25.12.5",
+  "reviewed": "2026-09-02",
+  "purpose": "Backup only. Use current official repositories first.",
+  "containsPrivateDeviceData": false,
+  "signatureVerification": "Image SHA-256 matched official HTTPS records; GPG signatures were NOT verified.",
+  "bytes": 29645558,
+  "sha256": "c167fc6ac4ac7b6950cc0780a3de33ac996ecfc2269f7ca9354087e15de63b49",
+  "files": [
+    {
+      "path": "00-Open-Guide.command",
+      "bytes": 95,
+      "sha256": "bd1dab8aee3727374f914bdc884dd1450d072497640f6bd01716371478cb2d8f"
+    },
+    {
+      "path": "01-Verify-Files.command",
+      "bytes": 224,
+      "sha256": "65b097ca1724702fd077d66e56928c4acf127fd699d96465c4ac42b12a8324c9"
+    },
+    {
+      "path": "02-Add-Stock-Address.command",
+      "bytes": 229,
+      "sha256": "0a88be01ac659e70a9de12b8c0496a8f293f7e84ac8279ff79ae2ea748ad75da"
+    },
+    {
+      "path": "03-Backup-Stock.command",
+      "bytes": 224,
+      "sha256": "aa66418ecbb528f87fb6ca7e8e2ead4c2afa313663b1ba521c1d192be421d5f2"
+    },
+    {
+      "path": "04-Start-TFTP.command",
+      "bytes": 222,
+      "sha256": "014bc2f7f0eb72403afa32d5fba012dc903dc2a42eda20ed3823214d662e3eab"
+    },
+    {
+      "path": "05-Stop-TFTP-and-Remove-Alias.command",
+      "bytes": 221,
+      "sha256": "d2546acb78c7d2e91f882934458f3ce6503cee92b870cdc88a15161bb1d37f41"
+    },
+    {
+      "path": "START-HERE.md",
+      "bytes": 6244,
+      "sha256": "c5ac98e5601fbf4818019d2fe812433bac5c26467d7d2b2c2620e9f63384dbe3"
+    },
+    {
+      "path": "TEST-RESULTS.md",
+      "bytes": 2154,
+      "sha256": "b52624ac050b40d5c80fedfcb423db63daa5715e39c8eb49cfaf3651b82b3c0f"
+    },
+    {
+      "path": "config/ssh-config",
+      "bytes": 666,
+      "sha256": "bdd9303c6bafdfbfed7b1d3c872d1b2d8e2d94787044ebb8d91fae705d21071d"
+    },
+    {
+      "path": "config/tftp-template.plist",
+      "bytes": 845,
+      "sha256": "ff9afa608b5cf710777238c9b32c99ad6925e170142f49437713fe3d5d553a9e"
+    },
+    {
+      "path": "guides/FLASHING-MAC.md",
+      "bytes": 9788,
+      "sha256": "8ff3b10752de2c218735c71a21d3948725f08a6bb38a3161ac1554e175f3b4a0"
+    },
+    {
+      "path": "guides/FIRST-BOOT.md",
+      "bytes": 2654,
+      "sha256": "e975e46fb2fa26a4f7a2e15a36153d6eb4b05caa7be55565bbc47a5da5b248f9"
+    },
+    {
+      "path": "guides/RECOVERY-AND-TROUBLESHOOTING.md",
+      "bytes": 5825,
+      "sha256": "b470ce73434ae7d0b9fa12b177d69823b3ed2957cf162fbeac80c6404ddcec66"
+    },
+    {
+      "path": "scripts/add-stock-address.sh",
+      "bytes": 981,
+      "sha256": "29b8347265a4be66397cbe94246d21ff913a7dc064671089be13d428ddaa8bad"
+    },
+    {
+      "path": "scripts/backup-stock.sh",
+      "bytes": 3801,
+      "sha256": "ea12819e59c3a9834b1f1c74f1c2c0148ebd48240dac05fb1d5765a5fdc9aa61"
+    },
+    {
+      "path": "scripts/common.sh",
+      "bytes": 1720,
+      "sha256": "dec27130d0d54f3d43b288fcacaa33b52d51c0ca0d6818fcfa42fc8dfca0d20d"
+    },
+    {
+      "path": "scripts/download-assets.sh",
+      "bytes": 2098,
+      "sha256": "e5ad14ff1258e96ead926256dd99c76d3dfa5c49e9424692333dbcd58da106b7"
+    },
+    {
+      "path": "scripts/start-tftp.sh",
+      "bytes": 2433,
+      "sha256": "01f30013d4cc130d6a32149310cf5bf243f1aa134e795600cd489f50c6e5a408"
+    },
+    {
+      "path": "scripts/stop-tftp.sh",
+      "bytes": 1286,
+      "sha256": "b63090241a8df23ed0bcdfc9c1b500f272688895e5447bf5a77cfc015b1a6294"
+    },
+    {
+      "path": "scripts/test-offline.sh",
+      "bytes": 1846,
+      "sha256": "b04d83585a46da337d1a2d25720d3f2195c0244bfed70dba1d6c6f76239c8873"
+    },
+    {
+      "path": "scripts/validate-stock-layout.awk",
+      "bytes": 658,
+      "sha256": "82695419b9f2db722d1eb4f8e72632f9cb3dc4e1fffda1b7a4ccb6559c521678"
+    },
+    {
+      "path": "scripts/verify-files.sh",
+      "bytes": 696,
+      "sha256": "406f4e4e2e7b3b08a4ebe63bbdc0a3962f575d72f6ae850f8cb0b8387b2a8a3e"
+    },
+    {
+      "path": "sources/EXTRA-FILES-SHA256.txt",
+      "bytes": 422,
+      "sha256": "b4cb0b064100d5cf190b9967063d721f8cbdafd2f32f5f7016426e8f37723afd"
+    },
+    {
+      "path": "sources/PROVENANCE.md",
+      "bytes": 5259,
+      "sha256": "786adb93dafb1c11bd2dcd0a1c297d20d2cd2bc86fde819ff73148b946be9695"
+    },
+    {
+      "path": "sources/sha256sums",
+      "bytes": 253863,
+      "sha256": "e1b59cd8b77d4cfb4f784b21140a7825e194ae40c8d92d8b530ceacc0d02a38e"
+    },
+    {
+      "path": "sources/sha256sums.asc",
+      "bytes": 299,
+      "sha256": "c5b3ac28a0abe5209ed940219f63663683cd1478095aaa240cc7eb58c12f3c43"
+    },
+    {
+      "path": "sources/sha256sums.sig",
+      "bytes": 142,
+      "sha256": "267851b845918367016330997a7894c24ac99cb6d0d2aaf8f298df8ef56faa78"
+    },
+    {
+      "path": "sources/openwrt-build-system-nitrokey3.asc",
+      "bytes": 3139,
+      "sha256": "334d8760642bf986e87ffa4eef3860df11941c38241956a9ebc6d90f8ab6f9a3"
+    },
+    {
+      "path": "sources/profiles.json",
+      "bytes": 225340,
+      "sha256": "a1c448c58e8a1cca016ae0ce0d0d02e5f53b97e3b67a8d9e2ee4aee34e602dd2"
+    },
+    {
+      "path": "optional-ssh-unlock/HX21-ssh.bin",
+      "bytes": 15296,
+      "sha256": "88d56f7d610a1cb32485527364cd23f120624a2f06e0f8fad6311c7c764434d0"
+    },
+    {
+      "path": "optional-ssh-unlock/READ-BEFORE-USING.md",
+      "bytes": 3326,
+      "sha256": "8233e888cd8e5ec37e4244cac4f9499d37c5570c2e1418a106e2fdb0cf149a40"
+    },
+    {
+      "path": "optional-bl2/README.md",
+      "bytes": 1635,
+      "sha256": "d8f42eaf014034ef8475dc292de19d12aa8ba9529c2cb23cb3d725f1d51dbfba"
+    },
+    {
+      "path": "optional-bl2/kmod-mtd-rw-6.12.94.2021.02.28~e8776739-r1.apk",
+      "bytes": 2113,
+      "sha256": "8a71bef54a7f5b3eb4a8d8a60796aa2468b7786a70a2d4ce1d4d8bcc7473ca29"
+    },
+    {
+      "path": "firmware/SHA256SUMS-HX21.txt",
+      "bytes": 512,
+      "sha256": "83ae3f7cb114d8692513dd6c8ccca973d12c0286608c50698ff3de01835fc0b3"
+    },
+    {
+      "path": "firmware/openwrt-25.12.5-mediatek-filogic-imou_hx21-bl31-uboot.fip",
+      "bytes": 804596,
+      "sha256": "6b203411e71692343518c5b97e54c48f4a4c3bfc7925b376aafc5b149cbf598b"
+    },
+    {
+      "path": "firmware/openwrt-25.12.5-mediatek-filogic-imou_hx21-preloader.bin",
+      "bytes": 230232,
+      "sha256": "ad13725b82566ebd6b6a0cc37b83a0b9f17b8685702f32efc02fefff4126b1fc"
+    },
+    {
+      "path": "firmware/openwrt-25.12.5-mediatek-filogic-imou_hx21-initramfs-recovery.itb",
+      "bytes": 9109504,
+      "sha256": "27b296ae93d86bc3d84d3c15cdb45ec0e30e21088b5642421dbccefddb433eec"
+    },
+    {
+      "path": "firmware/openwrt-25.12.5-mediatek-filogic-imou_hx21-squashfs-sysupgrade.itb",
+      "bytes": 10969346,
+      "sha256": "4e6dff2db0ae3e497b1d82f534458d9240ac989c67365ba4082811a47123a247"
+    },
+    {
+      "path": "tftp/openwrt-mediatek-filogic-imou_hx21-initramfs-recovery.itb",
+      "bytes": 9109504,
+      "sha256": "27b296ae93d86bc3d84d3c15cdb45ec0e30e21088b5642421dbccefddb433eec"
+    },
+    {
+      "path": "DEVICE-WORKSHEET.md",
+      "bytes": 334,
+      "sha256": "2118677bd03bf9c79283e51b39ae10cca5fe9ff0a3991afe0f68e4ea3380651c"
+    }
+  ]
+}

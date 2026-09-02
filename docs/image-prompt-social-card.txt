@@ -1,0 +1,11 @@
+Use case: ads-marketing
+Asset type: one branded landscape social preview card for an independent engineering field guide website.
+Primary request: a polished modern minimalist engineering field guide cover, approximately 1200x630 proportions (1.90:1 landscape).
+Scene/backdrop: flat warm ivory background, color #faf9f6.
+Style/medium: exquisite editorial graphic design; crisp sans-serif typography; precise grid alignment; beautiful large typographic hierarchy; ample negative space.
+Color palette: deep forest ink #182725 for the main title, muted sage #7c8c81 for subtle fine details, a restrained burnt orange #cc4d28 accent.
+Composition: the title is the dominant element, strongly readable as a social thumbnail; a smaller supporting line beneath it; generous outer margins. Subtle sparse network/checkpoint schematic motif in hairline sage, with a single restrained burnt-orange checkpoint accent. The motif is abstract and understated, never behind or obscuring the title.
+Text (verbatim): Main title "HX21 OpenWrt Guide". Small supporting line "Findings. Backups. A clearer path."
+Text constraints: spell the title exactly H-X-2-1 then OpenWrt then Guide, preserving capitalization as shown. Render the exact supporting punctuation. No additional text, labels, or numbers. Omit the optional language label.
+Avoid: brands, logos, watermark, fake router photographs, people, visual clutter, gradients, glossy 3D, official affiliation claims, guaranteed safety claims.
+Output intent: one finished landscape social preview card.

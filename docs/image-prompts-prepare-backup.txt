@@ -1,0 +1,27 @@
+ASSET A — PREPARE
+
+Use case: stylized-concept
+Asset type: conceptual preparation illustration for an independent networking walkthrough.
+Primary request: a Mac-style silver laptop connected by a visible short USB-C lead to a USB-C Ethernet adapter, then by one clearly continuous Ethernet cable to a generic unbranded home router, all arranged on a very tidy desk.
+Style/medium: refined editorial 3D paper-clay illustration; crafted matte surfaces, rounded but precise forms, elegant restrained soft shadows.
+Scene/backdrop: warm ivory #faf9f6 seamless background and tabletop.
+Color palette: silver laptop and adapter, forest green #213c35 router, sage #7c8c81 details, one restrained burnt orange #cc4d28 cable highlight.
+Composition/framing: landscape 3:2, gentle three-quarter view, entire connection setup visible, generous negative space and wide quiet margins. Show the laptop, adapter, and router as three distinct objects, with physical wired connections clearly joining them. Laptop screen is plain dark forest green, with no interface.
+Lighting/mood: soft studio daylight, calm, clear, premium technical editorial.
+Constraints: conceptual illustration only, NOT exact HX21 hardware, NOT a port or pin diagram. Generic unbranded hardware, no claims or safety symbols.
+Avoid: any text, letters, numbers, logos, watermarks, labels, keyboard lettering, wireless connection lines, Wi-Fi arcs, cloud symbols, people, plants, cups, extra decorative objects, realistic product photography.
+Output intent: one finished landscape walkthrough illustration, no text.
+
+ASSET B — BACKUP
+
+Use case: stylized-concept
+Asset type: conceptual private-backup illustration for an independent networking walkthrough.
+Primary request: a silver laptop alongside two distinctly separate storage objects: one forest-green external backup drive and one sage physical file folder holding a few blank ivory sheets. The drive and folder represent two private redundant copies. A gentle translucent pale-sage protective shield form curves around and encloses both storage objects together, with the laptop just alongside.
+Style/medium: refined editorial 3D paper-clay illustration; crafted matte surfaces, rounded but precise forms, sophisticated minimalist object composition.
+Scene/backdrop: warm ivory #faf9f6 seamless background and tabletop.
+Color palette: silver laptop, forest green #213c35 drive, sage #7c8c81 folder and very light translucent shield, restrained burnt orange #cc4d28 accent on the drive's small status light.
+Composition/framing: landscape 3:2, gentle three-quarter view, all objects fully visible, generous negative space and wide quiet margins. The laptop is closed and unbranded, a slim silver laptop silhouette with a clear lid seam, no keyboard visible. The drive and folder are separate and readable at thumbnail scale. Shield must be an enclosing gently curved translucent protective form, not a floating stamp, not an upload symbol.
+Lighting/mood: soft studio daylight, calm and private, premium technical editorial, delicate shadows.
+Constraints: convey local private copies and redundancy conceptually; no exact hardware claims, no visible cables required, no literal data or screen content.
+Avoid: any text, letters, numbers, keyboard, logos, watermarks, labels, writing on sheets, cloud shapes, upload/download motifs, arrows, network lines, people, plants, cups, extra decorative objects, realistic product photography.
+Output intent: one finished landscape walkthrough illustration, no text.
