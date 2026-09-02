@@ -7,6 +7,7 @@
 - Translation/mapping/content tests, lint, production build/TypeScript, all eight local HTTP routes and isolated GitHub Pages export/static tests passed. Tests check contextual term placement and preserve the existing navigation, help panels, artwork, font and download checks.
 - React review kept the terminology entirely server-rendered with no new client state, network requests or clipboard behavior. Narrow layouts use one definition column; wider walkthroughs use two.
 - Executable helper/router commands and both public ZIPs are unchanged. No hardware operations, network changes or browser interaction/visual QA were performed. Sources and verification limits are in `WALKTHROUGH-REFERENCE-REVIEW.md`.
+- GitHub Pages publication and live HTTP verification passed for all eight routes, localized terminology, TFTP/server explanations, existing how-to panels, navigation, assets, font bytes and both full download hashes. Vercel remains on its older release pending the previously identified account connection.
 
 ## Beginner how-to panels — 3 September 2026
 

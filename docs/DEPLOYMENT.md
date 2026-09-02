@@ -2,6 +2,14 @@
 
 The user authorized public GitHub Pages and Vercel hosting, including a new public repository named `tanzir71/hx21-openwrt-guide`.
 
+## In-context terminology update — 3 September 2026 (Asia/Dhaka)
+
+- Application commit: `dad0b78298e564a78ff59c66293504615674e6f1`.
+- GitHub Pages workflow [33672937067](https://github.com/tanzir71/hx21-openwrt-guide/actions/runs/33672937067) succeeded, including the terminology/content and static-export checks.
+- Live HTTP checks passed for all eight pages, localized term notes and the TFTP explanation, original help panels, navigation, metadata, exact font bytes, 18 linked assets and both unchanged ZIP hashes.
+- The existing local preview also serves the visible English/Bengali definitions. Firmware/helper commands and both public archives are unchanged.
+- Vercel's previously confirmed commit-author identity blocker was not retried or bypassed; this update is not claimed to be on that host.
+
 ## Beginner walkthrough update — 3 September 2026 (Asia/Dhaka)
 
 - Application commit: `1ad1cc2d1a45b5d628b87ab533b2c6c5cb2a0352`.
