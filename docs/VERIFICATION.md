@@ -1,5 +1,13 @@
 # Verification — 2 September 2026
 
+## In-context technical terms — 3 September 2026
+
+- Added 41 bilingual term groups, selected by the relevant walkthrough step/research section and beside the download/MAC-repair guidance. Explanations are visible semantic definition lists, not title attributes, hover tooltips or client-only overlays.
+- Clarified the roles of TFTP server/client, recovery file transfer, SSH sessions, image types, raw storage, checksums/signatures and computer-versus-router terminology. The TFTP introduction and SSH/TFTP step headings now state their practical meaning.
+- Translation/mapping/content tests, lint, production build/TypeScript, all eight local HTTP routes and isolated GitHub Pages export/static tests passed. Tests check contextual term placement and preserve the existing navigation, help panels, artwork, font and download checks.
+- React review kept the terminology entirely server-rendered with no new client state, network requests or clipboard behavior. Narrow layouts use one definition column; wider walkthroughs use two.
+- Executable helper/router commands and both public ZIPs are unchanged. No hardware operations, network changes or browser interaction/visual QA were performed. Sources and verification limits are in `WALKTHROUGH-REFERENCE-REVIEW.md`.
+
 ## Beginner how-to panels — 3 September 2026
 
 - Added practical, localized instructions to all eight walkthrough steps for both macOS and Windows. Native details/summary panels keep the complete content server-rendered and usable without JavaScript. Connect and Access start expanded; copy buttons do not execute commands.

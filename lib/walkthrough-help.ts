@@ -462,8 +462,8 @@ export function walkthroughHelp(
     },
     verify: {
       intro: t(
-        'TFTP is a small file server the new bootloader contacts for recovery. Set it up before any bootloader write, not after a failure.',
-        'TFTP ছোট file server, যেখান থেকে নতুন bootloader recovery নেয়। Bootloader লেখার আগেই তৈরি করুন—ব্যর্থতার পরে নয়।',
+        'TFTP (Trivial File Transfer Protocol) copies the recovery file from your computer to the router over the Ethernet cable. Your computer runs the file-serving program; the new bootloader asks it for the exact filename. Download everything while online, then prepare and test this local file transfer before any bootloader write—not after a failure. Starting the server does not start a firmware installation.',
+        'TFTP (Trivial File Transfer Protocol) Ethernet তার দিয়ে কম্পিউটার থেকে রাউটারে recovery file কপি করে। কম্পিউটারে file দেওয়ার program চলে; নতুন bootloader নির্দিষ্ট নামের file চায়। অনলাইনে থাকতেই সব নামিয়ে রাখুন, তারপর bootloader লেখার আগেই এই local transfer তৈরি ও পরীক্ষা করুন—ব্যর্থতার পরে নয়। Server চালালেই firmware install শুরু হয় না।',
       ),
       items: [
         {

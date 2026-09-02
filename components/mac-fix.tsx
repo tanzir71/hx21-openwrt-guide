@@ -1,5 +1,6 @@
 import { ShieldCheck, TriangleAlert, ArrowUpRight } from 'lucide-react';
 import { CopyCode } from './copy-code';
+import { TermNotes } from './term-notes';
 import { ui } from '@/lib/content';
 import type { Locale } from '@/lib/locale';
 const dts =
@@ -69,6 +70,11 @@ export function MacFix({ locale }: { locale: Locale }) {
     <section className="mac-fix" id="mac-fix">
       <h4>{t.title}</h4>
       <p>{t.intro}</p>
+      <TermNotes
+        locale={locale}
+        terms={['mac', 'factory', 'uci', 'offset']}
+        context="mac-fix"
+      />
       <div className="notice">
         <TriangleAlert size={18} />
         <p>

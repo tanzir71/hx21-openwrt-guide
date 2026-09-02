@@ -46,6 +46,7 @@ for (const locale of ['en', 'bn']) {
     assert.ok(html.includes('GitHub Pages'));
     assert.ok(html.includes('href="https://tanziro.com/"'));
     assert.ok(html.includes('aria-current="page"'));
+    assert.ok(html.includes('id="terms-download"'));
     const windows = route.includes('/windows');
     assert.ok(html.includes(windows ? 'hx21-windows-kit-' : 'hx21-mac-kit-'));
     assert.ok(!html.includes(windows ? 'hx21-mac-kit-' : 'hx21-windows-kit-'));
@@ -60,6 +61,9 @@ for (const locale of ['en', 'bn']) {
       /href="\/(?:en|bn|downloads)|src="\/illustrations/,
     );
     if (route.endsWith('/steps')) {
+      assert.ok(html.includes('id="terms-step-verify"'));
+      assert.ok(html.includes('Trivial File Transfer Protocol'));
+      assert.ok(html.includes('data-term="tftp"'));
       assert.equal(
         [...html.matchAll(/<details[^>]*class="step-how-to"[^>]*>/g)].length,
         8,
@@ -71,7 +75,11 @@ for (const locale of ['en', 'bn']) {
       for (const name of ['prepare', 'backup', 'verify', 'finish']) {
         assert.ok(html.includes(`${basePath}/illustrations/${name}.webp`));
       }
-    } else assert.ok(html.includes('id="mac-fix"'));
+    } else {
+      assert.ok(html.includes('id="mac-fix"'));
+      assert.ok(html.includes('id="terms-mac-fix"'));
+      assert.ok(html.includes('id="terms-finding-images"'));
+    }
     for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
       const url = new URL(match[1].replaceAll('&amp;', '&'), publicUrl);
       if (

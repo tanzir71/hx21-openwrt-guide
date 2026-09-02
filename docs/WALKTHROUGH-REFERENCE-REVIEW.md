@@ -16,6 +16,17 @@ The original checklist assumed familiarity with network aliases, SSH, command wi
 
 ## Scope and limits
 
+### In-context terminology follow-up
+
+The guide now supplies visible bilingual definition lists at each walkthrough step, each research section, the public download and the conditional MAC-repair branch. These explain practical meaning rather than only expanding acronyms. The step headings also spell out that SSH is the router's command line and TFTP is recovery file transfer. The vocabulary component is server-rendered semantic HTML, not a hover tooltip or an extra client-side widget.
+
+- [RFC 1350, TFTP](https://www.rfc-editor.org/info/rfc1350/): checked transfer roles, simple file operations, absence of user authentication, binary/octet preservation and the initial request port 69. Guide-specific context explains the computer-to-HX21 Ethernet transfer and why serving a file does not itself flash firmware.
+- [Linux kernel: UBI/UBIFS](https://docs.kernel.org/filesystems/ubifs.html): checked the distinction between raw MTD storage, UBI volume management and flash wear/bad-block handling. This is terminology clarification, not a new restoration recipe.
+- [OpenSSH](https://man.openbsd.org/ssh) and the previously reviewed [scp manual](https://man.openbsd.org/scp): command sessions and file copying are separate operations. The guide keeps computer commands distinct from router commands.
+- The existing device, helper, Windows and MAC-reference reviews continue to govern model-specific details. OpenWrt's signature page again returned an anti-bot response during this follow-up. The signature explanation does not claim fresh firmware authentication or change the existing unverified-signature warning.
+
+Regression checks cover translation completeness, valid/unique term mappings, contextual placement before walkthrough how-to panels, all eight pages and static export. No executable router/helper commands were changed by the terminology update; both public archives remain unchanged.
+
 The new panels explain preparation, SSH outcomes, private backups, integrity checks, TFTP, command locations, recovery identification and cleanup. They are not an automatic installer or a fully verified replacement for the model-specific flash procedure. The firmware archives and their hashes are unchanged.
 
 Validation is source, TypeScript/build and HTTP/static-output checking. It does not prove physical router compatibility, successful flashing, Windows GUI behavior, actual firewall reachability or an authenticated firmware signature. No router was contacted, no passwords were tried, no firmware was written and no computer networking was changed.

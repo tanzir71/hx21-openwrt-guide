@@ -24,14 +24,14 @@ export const steps: Record<Locale, Step[]> = {
       checklist: [
         'Record the Mac’s existing Ethernet settings.',
         'For the kit workflow: manual Ethernet 192.168.1.254/24, router 192.168.1.1.',
-        'Add 192.168.10.2/24 as an alias on that same wired adapter for stock access.',
+        'Add 192.168.10.2/24 as an alias (a second IP address) on that same wired adapter for stock access.',
       ],
       checkpoint:
         'Stock 192.168.10.1 is reachable; 192.168.1.254 belongs to the Mac, not the router.',
     },
     {
       id: 'access',
-      title: 'Choose how to get SSH.',
+      title: 'Open the router’s command line (SSH).',
       short: 'Access',
       visual: 'access',
       text: 'Try existing stock SSH first. A modified config restore is optional—not a risk-free default.',
@@ -59,7 +59,7 @@ export const steps: Record<Locale, Step[]> = {
     },
     {
       id: 'verify',
-      title: 'Verify images. Prepare TFTP.',
+      title: 'Check files. Prepare recovery file transfer (TFTP).',
       short: 'Verify',
       visual: 'verify',
       text: 'Download the current appropriate HX21 release from official sources. Check SHA-256 and publisher signatures; do not mix releases.',
@@ -140,14 +140,14 @@ export const steps: Record<Locale, Step[]> = {
       checklist: [
         'ম্যাকের বর্তমান Ethernet সেটিংস লিখে রাখুন।',
         'কিটের পদ্ধতিতে: manual Ethernet 192.168.1.254/24, router 192.168.1.1।',
-        'স্টকে ঢোকার জন্য একই তারযুক্ত অ্যাডাপ্টারে 192.168.10.2/24 alias যোগ করুন।',
+        'স্টকে ঢোকার জন্য একই তারযুক্ত অ্যাডাপ্টারে 192.168.10.2/24 alias (দ্বিতীয় IP address) যোগ করুন।',
       ],
       checkpoint:
         'স্টক 192.168.10.1-এ ঢোকা যাচ্ছে; 192.168.1.254 ম্যাকের ঠিকানা, রাউটারের নয়।',
     },
     {
       id: 'access',
-      title: 'SSH পাওয়ার পথ বেছে নিন।',
+      title: 'রাউটারের command line (SSH) খুলুন।',
       short: 'অ্যাক্সেস',
       visual: 'access',
       text: 'আগে দেখুন স্টকে SSH চালু আছে কি না। পরিবর্তিত কনফিগ রিস্টোর ঐচ্ছিক—ঝুঁকিহীন ডিফল্ট নয়।',
@@ -174,7 +174,7 @@ export const steps: Record<Locale, Step[]> = {
     },
     {
       id: 'verify',
-      title: 'ইমেজ যাচাই, TFTP প্রস্তুত।',
+      title: 'ফাইল যাচাই করে recovery file পাঠানোর TFTP প্রস্তুত করুন।',
       short: 'যাচাই',
       visual: 'verify',
       text: 'অফিশিয়াল সূত্র থেকে বর্তমানে উপযুক্ত HX21 রিলিজ নিন। SHA-256 ও প্রকাশকের স্বাক্ষর যাচাই করুন; রিলিজ মিশিয়ে ফেলবেন না।',

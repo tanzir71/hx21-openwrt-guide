@@ -19,6 +19,8 @@ import { CopyCode } from './copy-code';
 import { NetworkDiagram, StepDiagram } from './diagrams';
 import { MacFix } from './mac-fix';
 import { StepHowTo } from './step-how-to';
+import { TermNotes } from './term-notes';
+import { findingTerms, stepTerms } from '@/lib/terminology';
 import { walkthroughHelp } from '@/lib/walkthrough-help';
 import { artifacts, partitionRows, sources } from '@/lib/content';
 import { faqs } from '@/lib/steps';
@@ -123,6 +125,11 @@ function Research({
               </span>
             </div>
             <h3>{finding.title}</h3>
+            <TermNotes
+              locale={locale}
+              terms={findingTerms[finding.id]}
+              context={'finding-' + finding.id}
+            />
             {finding.paragraphs.map((p) => (
               <p key={p}>{p}</p>
             ))}
@@ -312,6 +319,11 @@ function Walkthrough({
                 />
               ) : null}
             </div>
+            <TermNotes
+              locale={locale}
+              terms={stepTerms[step.id]}
+              context={'step-' + step.id}
+            />
             <StepHowTo
               id={step.id}
               help={help[step.id]}
@@ -338,6 +350,11 @@ function Archive({ locale, platform }: { locale: Locale; platform: Platform }) {
         </span>
         <h2>{t.zipTitle}</h2>
         <p>{t.zipText}</p>
+        <TermNotes
+          locale={locale}
+          terms={['image', 'checksum', 'signature']}
+          context="download"
+        />
         <a className="text-action" href={sources.selector}>
           {t.sourceFirst}
           <ArrowUpRight size={15} />

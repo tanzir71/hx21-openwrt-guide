@@ -49,6 +49,23 @@ assert.doesNotMatch(languageCookie('bn', false), /Secure/);
 const { findings, artifacts, ui } = await loadTs('lib/content.ts');
 const { steps, faqs } = await loadTs('lib/steps.ts');
 const { walkthroughHelp } = await loadTs('lib/walkthrough-help.ts');
+const { terminology, stepTerms, findingTerms } =
+  await loadTs('lib/terminology.ts');
+for (const [id, term] of Object.entries(terminology)) {
+  assert.deepEqual(Object.keys(term).sort(), ['bn', 'en']);
+  assert.ok(term.en.name && term.bn.name && term.en.meaning.length > 80, id);
+  assert.match(term.bn.meaning, /[\u0980-\u09ff]/, id);
+}
+for (const groups of [stepTerms, findingTerms])
+  for (const ids of Object.values(groups)) {
+    assert.equal(new Set(ids).size, ids.length);
+    assert.ok(ids.every((id) => terminology[id]));
+  }
+assert.equal(stepTerms.verify[0], 'tftp');
+assert.match(terminology.tftp.en.meaning, /Trivial File Transfer Protocol/);
+assert.match(terminology.tftp.en.meaning, /computer.*HX21/);
+assert.match(terminology.recovery.en.meaning, /may still modify flash/);
+assert.match(terminology.signature.en.meaning, /remain unverified/);
 const { platformFindings, platformSteps, platformUi } = await loadTs(
   'lib/platform-content.ts',
 );
@@ -64,6 +81,15 @@ for (const locale of ['en', 'bn']) {
   }
   for (const platform of ['mac', 'windows']) {
     const help = walkthroughHelp(locale, platform);
+    assert.ok(
+      platformFindings(locale, platform).every(
+        (f) => findingTerms[f.id]?.length,
+      ),
+    );
+    assert.deepEqual(
+      Object.keys(stepTerms),
+      steps[locale].map((step) => step.id),
+    );
     assert.deepEqual(
       Object.keys(help),
       steps[locale].map((step) => step.id),
@@ -340,6 +366,14 @@ if (process.env.TEST_BASE_URL) {
         assert.ok(selected.includes('aria-current="page"'));
         assert.ok(html.includes('href="https://tanziro.com/"'));
         assert.ok(html.includes('rel="author"'));
+        assert.ok(html.includes('id="terms-download"'));
+        assert.ok(
+          html.includes(
+            locale === 'bn'
+              ? 'এই অংশের শব্দগুলো সহজ ভাষায়'
+              : 'What these terms mean here',
+          ),
+        );
         assert.ok(
           html.indexOf('class="platform-bar"') < html.indexOf('<main>'),
         );
@@ -356,6 +390,10 @@ if (process.env.TEST_BASE_URL) {
         if (view === 'findings') {
           assert.ok(html.includes('id="mac-fix"'));
           assert.ok(html.includes('0x4'));
+          assert.ok(html.includes('id="terms-mac-fix"'));
+          assert.ok(html.includes('data-term="uci"'));
+          for (const finding of platformFindings(locale, platform))
+            assert.ok(html.includes('id="terms-finding-' + finding.id + '"'));
         } else
           assert.ok(
             html.includes(guidePath(locale, 'findings', platform) + '#mac-fix'),
@@ -405,6 +443,17 @@ if (process.env.TEST_BASE_URL) {
         for (const id of ids)
           assert.ok(html.includes('id="' + id + '"'), path + ' missing ' + id);
         if (view === 'steps') {
+          for (const step of steps[locale]) {
+            assert.ok(html.includes('id="terms-step-' + step.id + '"'));
+            assert.ok(
+              html.indexOf('id="terms-step-' + step.id + '"') <
+                html.indexOf('id="howto-' + step.id + '"'),
+            );
+            for (const id of stepTerms[step.id])
+              assert.ok(html.includes('data-term="' + id + '"'));
+          }
+          assert.ok(html.includes('Trivial File Transfer Protocol'));
+          assert.ok(html.includes('data-term="server"'));
           const panels = [
             ...html.matchAll(/<details[^>]*class="step-how-to"[^>]*>/g),
           ].map((m) => m[0]);
