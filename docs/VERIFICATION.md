@@ -7,6 +7,7 @@
 - Local HTTP tests passed for all eight routes, including eight help panels on every walkthrough and exactly the two intended expanded panels. Existing navigation, language, downloads, font, metadata and artwork checks passed.
 - Both public ZIPs remain byte-for-byte unchanged. The existing archive/hash/privacy/source checks and lint passed.
 - Production build/TypeScript and isolated GitHub Pages build/static checks passed, including all four localized OS walkthroughs and their new help panels.
+- GitHub Pages publication and live HTTP checks passed: all eight pages, eight help panels per walkthrough with the intended expanded sections, correct OS commands, 18 linked assets, exact Baloo Da 2 bytes and both full ZIP hashes. Vercel was not retried because its previously confirmed identity-verification blocker remains unresolved.
 - React review preserved server component boundaries, native list/disclosure semantics and only the existing clipboard interaction. New copy controls receive only the three necessary status strings, not the complete UI dictionary.
 - Technical references, conditional stock-password scope and remaining official-procedure/signature-verification boundaries are recorded in `WALKTHROUGH-REFERENCE-REVIEW.md`. No physical device, network changes, browser-interaction or visual QA was performed.
 
