@@ -1835,7 +1835,7 @@ summary:focus-visible {
   .tab-bar [data-slot='tabs-trigger'] {
     font-size: 12px;
     gap: 6px;
-    max-width: 50%;
+    max-width: none;
   }
   .tab-bar [data-slot='tabs-trigger'] svg {
     width: 16px !important;
@@ -1887,5 +1887,72 @@ summary:focus-visible {
   }
   html[lang='bn'] h1 {
     font-size: 34px;
+  }
+}
+
+/* The complete prompt remains selectable in server-rendered HTML. */
+.llm-prompt {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.prompt-checkpoints {
+  list-style: decimal;
+  padding-left: 1.4rem;
+  line-height: 1.8;
+  margin: 24px 0;
+}
+.prompt-meta {
+  color: var(--muted-foreground);
+  font-size: 13px;
+  margin: 20px 0 10px;
+}
+.llm-prompt .code-row {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: stretch;
+  gap: 14px;
+}
+.llm-prompt .code-row button {
+  align-self: flex-end;
+  flex-shrink: 0;
+}
+.llm-prompt .code-row button span {
+  display: inline;
+}
+.llm-prompt .prompt-text {
+  display: block;
+  width: 100%;
+  min-height: 22rem;
+  max-height: 48rem;
+  resize: vertical;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+  padding: 10px;
+  font: inherit;
+  font-family: monospace;
+  font-size: 12px;
+  color: inherit;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+}
+.tab-bar {
+  overflow-x: auto;
+}
+.tab-bar [data-slot='tabs-trigger'] {
+  flex-shrink: 0;
+}
+@media (max-width: 600px) {
+  .tab-bar {
+    gap: 10px !important;
+  }
+  .tab-bar [data-slot='tabs-trigger'] {
+    font-size: 11px;
+    padding-inline: 2px;
+  }
+  .tab-bar [data-slot='tabs-trigger'] svg {
+    display: none;
   }
 }

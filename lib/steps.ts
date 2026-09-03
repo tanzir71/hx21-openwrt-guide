@@ -20,10 +20,10 @@ export const steps: Record<Locale, Step[]> = {
       title: 'Make one isolated wired connection.',
       short: 'Connect',
       visual: 'network',
-      text: 'Connect the Mac’s Ethernet adapter to an HX21 LAN port. Disconnect router WAN. Keep Mac Wi-Fi, VPN and Internet Sharing off.',
+      text: 'Connect the Mac’s Ethernet adapter to an HX21 LAN port and initially disconnect WAN. Keep an independent Wi-Fi uplink if it carries your chat; verify routes and prevent Internet Sharing, accidental bridges and conflicting VPN routes.',
       checklist: [
         'Record the Mac’s existing Ethernet settings.',
-        'For the kit workflow: manual Ethernet 192.168.1.254/24, router 192.168.1.1.',
+        'Prepare Ethernet 192.168.1.254/24 without gateway/DNS on the isolated link; verify routing.',
         'Add 192.168.10.2/24 as an alias (a second IP address) on that same wired adapter for stock access.',
       ],
       checkpoint:
@@ -106,7 +106,7 @@ export const steps: Record<Locale, Step[]> = {
       title: 'Secure, test, and clean up.',
       short: 'Finish',
       visual: 'finish',
-      text: 'Set a root password, configure your ISP and both Wi-Fi radios, and choose the correct regulatory country.',
+      text: 'Secure administrator access, choose primary-router or wired-AP mode, and configure the actual upstream network and both Wi-Fi radios for your country.',
       checklist: [
         'Compare MACs with the worksheet; test LAN DHCP, DNS, WAN and both bands.',
         'Confirm a normal boot from flash without the TFTP server.',
@@ -136,10 +136,10 @@ export const steps: Record<Locale, Step[]> = {
       title: 'একটি আলাদা তারযুক্ত সংযোগ করুন।',
       short: 'সংযোগ',
       visual: 'network',
-      text: 'ম্যাকের ইথারনেট অ্যাডাপ্টার HX21-এর LAN-এ লাগান। WAN খুলে দিন। ম্যাকের Wi-Fi, VPN ও Internet Sharing বন্ধ রাখুন।',
+      text: 'ম্যাকের Ethernet adapter HX21 LAN-এ লাগিয়ে শুরুতে WAN খুলুন। স্বাধীন Wi-Fi-তে chat চললে সেটি রাখুন; route যাচাই করে Internet Sharing, অনিচ্ছাকৃত bridge ও বিরোধী VPN route এড়ান।',
       checklist: [
         'ম্যাকের বর্তমান Ethernet সেটিংস লিখে রাখুন।',
-        'কিটের পদ্ধতিতে: manual Ethernet 192.168.1.254/24, router 192.168.1.1।',
+        'বিচ্ছিন্ন Ethernet-এ 192.168.1.254/24 দিন; gateway/DNS ফাঁকা রেখে route যাচাই করুন।',
         'স্টকে ঢোকার জন্য একই তারযুক্ত অ্যাডাপ্টারে 192.168.10.2/24 alias (দ্বিতীয় IP address) যোগ করুন।',
       ],
       checkpoint:
@@ -221,7 +221,7 @@ export const steps: Record<Locale, Step[]> = {
       title: 'নিরাপদ করুন, পরীক্ষা করুন, গুছিয়ে নিন।',
       short: 'শেষ যাচাই',
       visual: 'finish',
-      text: 'root পাসওয়ার্ড দিন, ISP ও দুই Wi-Fi রেডিও সেট করুন এবং প্রকৃত regulatory country বেছে নিন।',
+      text: 'Administrator access সুরক্ষিত করে primary-router বা wired-AP ভূমিকা বাছুন; প্রকৃত upstream network ও নিজের দেশের জন্য দুই Wi-Fi radio সেট করুন।',
       checklist: [
         'worksheet-এর MAC মিলিয়ে LAN DHCP, DNS, WAN ও দুই ব্যান্ড পরীক্ষা করুন।',
         'TFTP সার্ভার ছাড়া ফ্ল্যাশ থেকে স্বাভাবিক boot নিশ্চিত করুন।',

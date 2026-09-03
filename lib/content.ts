@@ -1,5 +1,5 @@
 import type { Locale } from './locale';
-export const reviewed = '2026-09-02';
+export const reviewed = '2026-09-03';
 export const firmwareVersion = '25.12.5';
 export const sources = {
   device: 'https://openwrt.org/toh/imou/hx21',
@@ -113,7 +113,7 @@ export const ui = {
     description:
       'The findings, the warnings, and a clearer path from stock firmware to OpenWrt. Research carefully. Back up first.',
     supported: 'Native HX21 support',
-    updated: 'Reviewed 2 Sep 2026',
+    updated: 'Reviewed 3 Sep 2026',
     routeTitle: 'YOUR ROUTE TO OPENWRT',
     checkpoints: '3 checkpoints',
     connect: 'Connect',
@@ -128,6 +128,11 @@ export const ui = {
       'This is an independent guide, not official OpenWrt documentation. Check the official device page and repositories before every flash. A wrong image or interrupted bootloader write can brick the router.',
     findings: 'Detailed findings',
     steps: 'Visual walkthrough',
+    prompt: 'LLM Prompt',
+    promptEyebrow: '03 / ASSISTED WORKFLOW',
+    promptTitle: 'Your assistant. One complete workflow.',
+    promptDescription:
+      'A copyable prompt for prerequisites, private backups, reviewed installation, network setup and cleanup. It adapts to your computer and actual router state.',
     findingEyebrow: '01 / THE RESEARCH',
     findingTitle: 'What we know. What needs care.',
     findingDescription:
@@ -174,7 +179,7 @@ export const ui = {
     staticPrivacy:
       'This GitHub Pages mirror does not detect your country. The entry page remembers your language through a first-party cookie for one year; otherwise it opens English. EN / বাংলা always lets you choose. No third-party geolocation request is used.',
     scope:
-      'Scope: several relevant group discussions, their expanded comments, upstream code and public guides were reviewed. This is not an exhaustive archive of every historical post or file. No router was flashed or hardware-tested during this research.',
+      'Scope: primary sources and community reports are supplemented by one completed Windows HX21 first-install and wired-AP workflow, including private backup checks and a 5 GHz client test. This is not validation of every revision, every published helper, macOS hardware execution, or a separate 2.4 GHz client test.',
     skip: 'Skip to guide',
     top: 'Back to top',
     hashLabel: 'Archive SHA-256',
@@ -194,7 +199,7 @@ export const ui = {
     description:
       'স্টক ফার্মওয়্যার থেকে OpenWrt—গবেষণার ফল, সতর্কতা ও সহজ পথনির্দেশ। আগে বুঝুন, তারপর ব্যাকআপ নিন।',
     supported: 'HX21-এর নিজস্ব সাপোর্ট',
-    updated: 'পর্যালোচনা: ২ সেপ্টেম্বর ২০২৬',
+    updated: 'পর্যালোচনা: ৩ সেপ্টেম্বর ২০২৬',
     routeTitle: 'OPENWRT-তে যাওয়ার পথ',
     checkpoints: '৩টি যাচাই ধাপ',
     connect: 'সংযোগ',
@@ -209,6 +214,11 @@ export const ui = {
       'এটি স্বাধীন গাইড, OpenWrt-এর অফিশিয়াল ডকুমেন্টেশন নয়। প্রতিবার ফ্ল্যাশের আগে অফিশিয়াল ডিভাইস পেজ ও রিপোজিটরি দেখুন। ভুল ইমেজ বা বুটলোডার লেখার সময় বিদ্যুৎ চলে গেলে রাউটার ব্রিক হতে পারে।',
     findings: 'বিস্তারিত গবেষণা',
     steps: 'ছবিতে ধাপে ধাপে',
+    prompt: 'LLM প্রম্পট',
+    promptEyebrow: '০৩ / সহকারীর সাহায্যে',
+    promptTitle: 'প্রস্তুতি থেকে শেষ যাচাই—এক প্রম্পটে।',
+    promptDescription:
+      'প্রয়োজনীয় টুল, ব্যক্তিগত ব্যাকআপ, যাচাইকৃত ইনস্টল, নেটওয়ার্ক ও cleanup-এর জন্য কপি করার প্রম্পট। আপনার কম্পিউটার ও রাউটারের প্রকৃত অবস্থা অনুযায়ী কাজ করবে।',
     findingEyebrow: '০১ / গবেষণার ফল',
     findingTitle: 'যা জানা গেছে। যেখানে সতর্কতা দরকার।',
     findingDescription:
@@ -254,7 +264,7 @@ export const ui = {
     staticPrivacy:
       'এই GitHub Pages সংস্করণে দেশ শনাক্ত করা হয় না। প্রথম পাতায় এক বছরের কুকি থেকে আপনার পছন্দের ভাষা নেওয়া হয়; পছন্দ না থাকলে ইংরেজি খোলে। EN / বাংলা দিয়ে যেকোনো সময় ভাষা বেছে নিতে পারেন। তৃতীয় পক্ষের জিওলোকেশন সেবা ব্যবহার করা হয় না।',
     scope:
-      'পরিধি: প্রাসঙ্গিক কয়েকটি গ্রুপ পোস্ট ও বিস্তারিত মন্তব্য, আপস্ট্রিম কোড এবং প্রকাশ্য গাইড পড়া হয়েছে। এটি পুরোনো সব পোস্ট বা ফাইলের সম্পূর্ণ আর্কাইভ নয়। গবেষণার সময় রাউটার ফ্ল্যাশ বা হার্ডওয়্যার পরীক্ষা করা হয়নি।',
+      'পরিধি: মূল সূত্র ও কমিউনিটি রিপোর্টের সঙ্গে একটি Windows HX21 first-install ও wired-AP ব্যবহারের ফল যুক্ত হয়েছে; private backup ও 5 GHz client পরীক্ষা হয়েছে। সব revision, প্রকাশিত প্রতিটি helper, macOS-এ বাস্তব execution বা আলাদা 2.4 GHz client test যাচাই হয়েছে—এমন দাবি নয়।',
     skip: 'গাইডে যান',
     top: 'উপরে যান',
     hashLabel: 'আর্কাইভের SHA-256',
@@ -284,7 +294,7 @@ export const findings: Record<Locale, Finding[]> = {
       label: 'official',
       paragraphs: [
         'The research kit pins official 25.12.5 images. Check the current Firmware Selector before acting; do not assume an archived version is still recommended. Keep bootloader, recovery and sysupgrade files from the same reviewed release.',
-        'The four downloaded images matched official SHA-256 and profile metadata. Detached GPG signatures were saved but not verified. A matching checksum is not the same as verified publisher authentication.',
+        'The four archived images matched official SHA-256 and profile metadata. The original archive build saved signatures without verification; a later Windows check authenticated the 25.12.5 manifest with the official release key. Verify your exact files and trusted key again before use; matching an unauthenticated checksum is not publisher authentication.',
       ],
       special: 'images',
       links: ['selector', 'firmware', 'signatures'],
@@ -327,8 +337,8 @@ export const findings: Record<Locale, Finding[]> = {
       title: 'A Mac needs two addresses, not a Windows utility.',
       label: 'practical',
       paragraphs: [
-        'macOS already includes SSH, SCP and a TFTP server. Use wired Ethernet into an HX21 LAN port; disconnect WAN and turn off Wi-Fi, VPN and Internet Sharing while flashing. Record your existing network settings first.',
-        'For this kit’s workflow, set Ethernet IPv4 manually to 192.168.1.254/24, gateway 192.168.1.1, then add 192.168.10.2/24 as a temporary alias on that same adapter. This preserves access to stock 192.168.10.1 while the Mac is ready to serve the new bootloader. Do not assign either router IP to the Mac.',
+        'Check the installed macOS SSH/SCP tools and TFTP service. Use Ethernet into an HX21 LAN port and initially disconnect WAN. Save original network settings. An offline workflow can disable Wi-Fi; when online help depends on an independent Wi-Fi uplink, retain it and verify separate Ethernet/internet routes, with Internet Sharing and accidental bridging disabled.',
+        'Prepare Ethernet 192.168.1.254/24 and, after checking for conflicts, 192.168.10.2/24 as a temporary stock-side alias on the same verified adapter. Leave gateway/DNS absent on the isolated management link and verify that an independent internet route still works. This keeps stock access while preparing TFTP. Never assign either router IP to the Mac.',
         'Use legacy SCP mode (-O) if stock lacks SFTP. Permit local-network access when macOS asks. The isolated TFTP helper serves only the public recovery file, tests a local transfer, and refuses to replace an existing service. A local self-test does not prove router-side connectivity.',
       ],
       special: 'network',
@@ -378,7 +388,7 @@ export const findings: Record<Locale, Finding[]> = {
       title: 'After the flash, establish a clean baseline.',
       label: 'practical',
       paragraphs: [
-        'Confirm board imou,hx21 and the expected release. Set a strong root password. OpenWrt normally uses LAN 192.168.1.1; radios may start disabled. Configure your real country, both Wi-Fi bands and the correct ISP protocol/VLAN. Resolve any WAN/LAN subnet overlap.',
+        'Confirm board imou,hx21 and the expected release. Set a strong root password. OpenWrt normally uses LAN 192.168.1.1; radios may start disabled. Choose the intended role: primary router with the real ISP protocol/VLAN, or wired AP behind an existing router. Discover the actual LAN/DHCP settings; do not copy another household’s network. Configure your real country and permitted channels on both bands, and resolve subnet overlap.',
         'Compare recorded MACs and test LAN DHCP, DNS, WAN, wired link rate and both radio bands. An interface-level WAN MAC override for ISP binding is not proof that Factory data was restored. Reboot and confirm normal boot without the TFTP server, then stop the server and restore the Mac’s prior settings.',
         'Owner posts report successful OpenWrt/ImmortalWrt installations. Range and performance claims are not controlled benchmarks. OpenWrt adds control; it cannot guarantee more RF range or remove hardware limits. SQM can help loaded latency, while VPN/filtering packages consume CPU/RAM.',
       ],
@@ -407,7 +417,7 @@ export const findings: Record<Locale, Finding[]> = {
       label: 'official',
       paragraphs: [
         'গবেষণার কিটে অফিশিয়াল 25.12.5 ইমেজ সংরক্ষিত আছে। কাজের আগে বর্তমান Firmware Selector দেখুন; সংরক্ষিত সংস্করণই এখন উপযুক্ত—এমন ধরে নেবেন না। বুটলোডার, রিকভারি ও sysupgrade একই পর্যালোচিত রিলিজের নিন।',
-        'চারটি ডাউনলোডের SHA-256 ও প্রোফাইল তথ্য অফিশিয়াল রেকর্ডের সঙ্গে মিলেছে। GPG স্বাক্ষরের ফাইল রাখা আছে, তবে স্বাক্ষর যাচাই করা হয়নি। চেকসাম মেলা আর প্রকাশকের স্বাক্ষর যাচাই এক বিষয় নয়।',
+        'চারটি archived image-এর SHA-256 ও profile official record-এর সঙ্গে মিলেছে। মূল archive তৈরিতে signature শুধু রাখা হয়েছিল; পরের Windows check-এ official release key দিয়ে 25.12.5 manifest authenticate হয়েছে। নিজের exact file ও trusted key আবার যাচাই করুন; অযাচাইকৃত checksum মেলা publisher authentication নয়।',
       ],
       special: 'images',
       links: ['selector', 'firmware', 'signatures'],
@@ -450,8 +460,8 @@ export const findings: Record<Locale, Finding[]> = {
       title: 'ম্যাকে দরকার দুটি ঠিকানা, Windows সফটওয়্যার নয়।',
       label: 'practical',
       paragraphs: [
-        'macOS-এ SSH, SCP ও TFTP সার্ভার আছে। ইথারনেট দিয়ে HX21-এর LAN-এ লাগান; ফ্ল্যাশের সময় WAN খুলে Mac Wi-Fi, VPN ও Internet Sharing বন্ধ রাখুন। আগের নেটওয়ার্ক সেটিংস লিখে রাখুন।',
-        'এই কিটের পদ্ধতিতে Ethernet IPv4 ম্যানুয়ালি 192.168.1.254/24, gateway 192.168.1.1 দিন; একই অ্যাডাপ্টারে 192.168.10.2/24 অস্থায়ী alias যোগ করুন। এতে স্টক 192.168.10.1-এ ঢোকা যায়, আবার নতুন বুটলোডারের TFTP-ও প্রস্তুত থাকে। রাউটারের নিজের কোনো IP ম্যাকে দেবেন না।',
+        'macOS-এর ইনস্টল করা SSH/SCP tool ও TFTP service যাচাই করুন। Ethernet দিয়ে HX21 LAN-এ লাগিয়ে শুরুতে WAN খুলুন। আগের network settings রাখুন। Offline পথে Wi-Fi বন্ধ করা যায়; স্বাধীন Wi-Fi-তেই সাহায্যের chat চললে সেটি চালু রেখে Ethernet/internet route আলাদা যাচাই করুন এবং Internet Sharing/অনিচ্ছাকৃত bridge বন্ধ রাখুন।',
+        'Ethernet-এ 192.168.1.254/24 এবং conflict যাচাই করে একই adapter-এ temporary stock-side alias 192.168.10.2/24 দিন। বিচ্ছিন্ন management link-এ gateway/DNS ফাঁকা রেখে স্বাধীন internet route কাজ করে কি না দেখুন। এতে stock access ও TFTP প্রস্তুত থাকে। Router-এর নিজের IP ম্যাকে দেবেন না।',
         'স্টকে SFTP না থাকলে legacy SCP (-O) ব্যবহার করুন। macOS চাইলে local-network অনুমতি দিন। আলাদা TFTP হেল্পার শুধু প্রকাশ্য recovery ফাইল দেয়, লোকাল ট্রান্সফার পরীক্ষা করে এবং অন্য সার্ভার প্রতিস্থাপন করে না। লোকাল পরীক্ষা পাস করলেও রাউটার থেকে পৌঁছানো নিশ্চিত হয় না।',
       ],
       special: 'network',
@@ -501,7 +511,7 @@ export const findings: Record<Locale, Finding[]> = {
       title: 'ফ্ল্যাশের পরে আগে স্বাভাবিক কাজ যাচাই করুন।',
       label: 'practical',
       paragraphs: [
-        'বোর্ড imou,hx21 ও প্রত্যাশিত রিলিজ নিশ্চিত করুন। শক্ত root পাসওয়ার্ড দিন। OpenWrt-তে LAN সাধারণত 192.168.1.1; রেডিও শুরুতে বন্ধ থাকতে পারে। প্রকৃত দেশ, দুই Wi-Fi ব্যান্ড এবং ISP protocol/VLAN সেট করুন। WAN/LAN-এর subnet overlap থাকলে ঠিক করুন।',
+        'বোর্ড imou,hx21 ও প্রত্যাশিত রিলিজ নিশ্চিত করুন। শক্ত root পাসওয়ার্ড দিন। OpenWrt-তে LAN সাধারণত 192.168.1.1; রেডিও শুরুতে বন্ধ থাকতে পারে। নিজস্ব ISP protocol/VLAN-সহ primary router নাকি existing router-এর পেছনে wired AP—ভূমিকা বাছুন। আসল LAN/DHCP settings জানুন; অন্য বাড়ির network কপি নয়। প্রকৃত দেশ ও অনুমোদিত channel দিয়ে দুই band সেট করুন; subnet overlap ঠিক করুন।',
         'আগের MAC-এর সঙ্গে মিলিয়ে LAN DHCP, DNS, WAN, তারের link rate ও দুই রেডিও পরীক্ষা করুন। ISP binding-এর জন্য interface-level WAN MAC override দিলেই Factory ডেটা ফিরেছে—এমন নয়। TFTP ছাড়া স্বাভাবিক রিবুট নিশ্চিত করে সার্ভার বন্ধ ও ম্যাকের আগের সেটিংস ফেরত দিন।',
         'ব্যবহারকারীরা OpenWrt/ImmortalWrt ইনস্টল সফল হওয়ার কথা বলেছেন। রেঞ্জ ও পারফরম্যান্সের দাবি নিয়ন্ত্রিত benchmark নয়। OpenWrt বেশি নিয়ন্ত্রণ দেয়; বেশি RF range বা হার্ডওয়্যারের সীমা দূর করার নিশ্চয়তা দেয় না। SQM ব্যস্ত সংযোগে latency কমাতে সাহায্য করতে পারে; VPN/filtering CPU/RAM খরচ করে।',
       ],

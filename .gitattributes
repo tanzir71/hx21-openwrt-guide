@@ -1,0 +1,10 @@
+* text=auto eol=lf
+*.zip binary
+*.bin binary
+*.itb binary
+*.fip binary
+*.apk binary
+*.png binary
+*.webp binary
+*.ico binary
+*.ttf binary

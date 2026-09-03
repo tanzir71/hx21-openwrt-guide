@@ -1,5 +1,13 @@
 # HX21 OpenWrt Guide
 
+## Complete assistant workflow and verified guidance
+
+The **LLM Prompt** tab covers prerequisites through final cleanup, with Windows/macOS branches, existing-device-state detection, independent chat connectivity, private backups, reviewed files and separate destructive-action checkpoints. Open `/en/prompt` or `/en/windows/prompt`; Bengali interfaces are at `/bn/prompt` and `/bn/windows/prompt`. The prompt requests replies in the selected language. OS/language switches preserve the view, and the complete prompt is selectable in server-rendered HTML and copyable with JavaScript. No LLM API, credentials form or router execution is built into the site.
+
+The walkthrough now includes generalized lessons from a completed Windows installation and wired-AP workflow. It adapts to the user's upstream network and country; private session information and household device details are excluded. See [verified workflow, sources and limits](docs/VERIFIED-WORKFLOW-UPDATE.md). The two dated downloadable firmware/helper archives remain byte-for-byte unchanged; current online instructions explain the later verification and connection-preserving workflow.
+
+There are now **twelve** OS/language/view pages. `pnpm test`, `pnpm build:pages`, and `pnpm test:pages` cover the complete prompt, navigation, metadata and unchanged downloads. Windows validation uses Git for Windows unzip/bash (override with `UNZIP_BIN` / `BASH_BIN` if needed), LF text checkout and same-drive build staging. `pnpm test:powershell` checks helper parsing and file-verification failure cases without contacting a router.
+
 Bilingual Next.js site with a full Vercel deployment and a static GitHub Pages build. This is independent research, not official installation guidance or a safety guarantee. See `docs/DEPLOYMENT.md` for hosting setup and verification.
 
 - [Vercel production](https://hx21-openwrt-guide.vercel.app/)

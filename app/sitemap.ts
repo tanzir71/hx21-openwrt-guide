@@ -6,7 +6,7 @@ import { publicPath } from '@/lib/paths';
 export const dynamic = 'force-static';
 export default function sitemap(): MetadataRoute.Sitemap {
   return (['mac', 'windows'] as Platform[]).flatMap((platform) =>
-    (['findings', 'steps'] as View[]).flatMap((view) =>
+    (['findings', 'steps', 'prompt'] as View[]).flatMap((view) =>
       locales.map((locale) => ({
         url: siteOrigin + publicPath(guidePath(locale, view, platform)),
         lastModified: reviewed,

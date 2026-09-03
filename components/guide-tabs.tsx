@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { BookOpen, ListOrdered } from 'lucide-react';
+import { BookOpen, ListOrdered, MessageSquareText } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { guidePath, type Locale, type View, type Platform } from '@/lib/locale';
 export function GuideTabs({
@@ -14,7 +14,7 @@ export function GuideTabs({
   locale: Locale;
   view: View;
   platform: Platform;
-  labels: { findings: string; steps: string };
+  labels: { findings: string; steps: string; prompt: string };
   children: React.ReactNode;
 }) {
   const router = useRouter();
@@ -23,7 +23,7 @@ export function GuideTabs({
       value={view}
       className="guide-tabs"
       onValueChange={(value) => {
-        if (value === 'findings' || value === 'steps')
+        if (value === 'findings' || value === 'steps' || value === 'prompt')
           router.push(guidePath(locale, value, platform), { scroll: false });
       }}
     >
@@ -54,6 +54,16 @@ export function GuideTabs({
         >
           <ListOrdered aria-hidden="true" />
           {labels.steps}
+        </TabsTrigger>
+        <TabsTrigger
+          value="prompt"
+          nativeButton={false}
+          render={
+            <Link href={guidePath(locale, 'prompt', platform)} scroll={false} />
+          }
+        >
+          <MessageSquareText aria-hidden="true" />
+          {labels.prompt}
         </TabsTrigger>
       </TabsList>
       <TabsContent value={view}>{children}</TabsContent>

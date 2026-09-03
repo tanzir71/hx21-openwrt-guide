@@ -33,8 +33,8 @@ export function platformUi(locale: Locale, platform: Platform) {
     zipWarning:
       t.zipWarning +
       (locale === 'bn'
-        ? ' Windows হেল্পার আসল Windows PC বা রাউটারে পরীক্ষা করা হয়নি। ব্যাকআপ হেল্পারের জন্য PowerShell 7.4+ জরুরি।'
-        : ' Windows helpers have not been tested on a Windows PC or physical router. The backup helper requires PowerShell 7.4+.'),
+        ? ' ব্যাকআপ helper-এর জন্য PowerShell 7.4+ জরুরি। কাজ-নির্দিষ্ট tool দিয়ে একটি বাস্তব Windows workflow যাচাই হয়েছে; প্রতিটি downloadable helper বা অন্য hardware revision যাচাইয়ের দাবি নয়।'
+        : ' The backup helper requires PowerShell 7.4+. One physical Windows workflow was verified using task-specific tools; that does not validate every downloadable helper or another hardware revision.'),
   };
 }
 
@@ -55,12 +55,12 @@ export function platformFindings(
         paragraphs: bn
           ? [
               'Windows-এর Optional Features থেকে OpenSSH Client নিন; এই কাজে PC-তে OpenSSH Server দরকার নেই। ব্যাকআপের জন্য Microsoft-এর PowerShell 7.4 বা নতুন সংস্করণ নিন—Windows Terminal খুললেই যে PowerShell 7 চলছে, তা নয়।',
-              'ncpa.cpl খুলে সঠিক Ethernet adapter-এর IPv4 Properties → Advanced-এ 192.168.1.254/24 ও 192.168.10.2/24 দিন। এই বিচ্ছিন্ন লিংকে gateway ও DNS ফাঁকা রাখুন। আগে বর্তমান সেটিংস লিখে রাখুন; Wi-Fi, VPN ও Internet Connection Sharing বন্ধ, HX21 WAN খুলে রাখুন।',
+              'ncpa.cpl খুলে সঠিক Ethernet adapter-এর IPv4 Properties → Advanced-এ 192.168.1.254/24 ও 192.168.10.2/24 দিন। এই বিচ্ছিন্ন লিংকে gateway ও DNS ফাঁকা রাখুন। আগের settings রেখে HX21 WAN খুলুন। স্বাধীন Wi-Fi internet-এ chat চললে সেটি চালু রাখুন; router-এর Ethernet route ও internet-এর আলাদা route যাচাই করুন। Internet Connection Sharing, অনিচ্ছাকৃত bridge ও বিরোধী VPN route এড়ান।',
               'অফিশিয়াল PJO2/tftpd64 থেকে সার্ভার নিন। শুধু TFTP চালু রাখুন, DHCP/DNS server বন্ধ। Server interface 192.168.1.254 এবং Current Directory কিটের tftp ফোল্ডার। Firewall পুরো বন্ধ করবেন না; প্রয়োজন হলে শুধু এই অ্যাপ, তারযুক্ত অ্যাডাপ্টার ও রাউটারের ঠিকানার জন্য সীমিত নিয়ম দিন।',
             ]
           : [
               'Install OpenSSH Client through Windows Optional Features; your PC does not need OpenSSH Server for this workflow. Install Microsoft PowerShell 7.4 or newer for backups. Opening Windows Terminal does not by itself mean you are using PowerShell 7.',
-              'Open ncpa.cpl and the correct Ethernet adapter’s IPv4 Properties → Advanced. Add 192.168.1.254/24 and 192.168.10.2/24. Leave gateway and DNS blank on this isolated link. Record previous settings; disable Wi-Fi, VPN and Internet Connection Sharing, and disconnect HX21 WAN.',
+              'Open ncpa.cpl and the correct Ethernet adapter’s IPv4 Properties → Advanced. Add 192.168.1.254/24 and 192.168.10.2/24. Leave gateway and DNS blank on this isolated link. Record previous settings and disconnect HX21 WAN. If this chat uses independent Wi-Fi internet, keep it connected and verify that the router uses Ethernet and internet uses the independent route. Prevent Internet Connection Sharing, accidental bridges and conflicting VPN routes.',
               'Get Tftpd64 from PJO2/tftpd64. Enable only TFTP; leave its DHCP/DNS servers off. Select server interface 192.168.1.254 and the kit’s tftp folder as Current Directory. Keep Windows Firewall enabled; use a narrowly scoped app rule for the wired adapter and router address if needed.',
             ],
         points: bn
@@ -90,12 +90,12 @@ export function platformFindings(
         ],
         points: bn
           ? [
-              'দুটি ব্যক্তিগত স্থানে কপি রাখুন; OneDrive-এ স্বয়ংক্রিয় sync হচ্ছে কি না দেখুন।',
+              'স্বাধীন physical storage-এ hash-verified private কপি রাখুন। Sensitive backup রাখার আগে folder permission ও cloud sync দেখুন।',
               'অন্য রাউটারের Factory ব্যবহার করবেন না।',
               'ভুল map, read failure বা hash অমিলে হেল্পার থামে এবং অসম্পূর্ণ .part ফাইল রেখে দেয়।',
             ]
           : [
-              'Keep two private copies; check whether OneDrive syncs your backup folder.',
+              'Keep hash-verified copies on independent physical storage. Check folder permissions and any cloud sync before saving sensitive backups.',
               'Never substitute another router’s Factory data.',
               'The helper stops on an unexpected map, read error or hash mismatch, retaining incomplete .part files.',
             ],
@@ -130,8 +130,8 @@ export function platformSteps(locale: Locale, platform: Platform): Step[] {
     },
     connect: {
       text: bn
-        ? 'Ethernet দিয়ে Windows PC-কে HX21 LAN-এ লাগান। WAN খুলে Wi-Fi, VPN ও Internet Connection Sharing বন্ধ রাখুন।'
-        : 'Connect Windows Ethernet to HX21 LAN. Disconnect WAN and disable Wi-Fi, VPN and Internet Connection Sharing.',
+        ? 'Windows Ethernet দিয়ে HX21 LAN-এ লাগিয়ে শুরুতে WAN খুলুন। স্বাধীন Wi-Fi-তে chat চললে সেটি চালু রাখুন; route যাচাই করে Internet Connection Sharing, bridge ও বিরোধী VPN route এড়ান।'
+        : 'Connect Windows Ethernet to HX21 LAN and initially disconnect WAN. Preserve an independent Wi-Fi connection carrying the chat; verify routing and prevent Internet Connection Sharing, bridging and conflicting VPN routes.',
       checklist: bn
         ? [
             'আগের IP/DNS ও DHCP সেটিংস লিখে রাখুন।',

@@ -36,6 +36,8 @@ for (const locale of ['en', 'bn']) {
     `${locale}/steps`,
     `${locale}/windows`,
     `${locale}/windows/steps`,
+    `${locale}/prompt`,
+    `${locale}/windows/prompt`,
   ]) {
     const html = await readFile(join(out, route, 'index.html'), 'utf8');
     assert.match(html, new RegExp(`<html lang="${locale}"`));
@@ -48,13 +50,15 @@ for (const locale of ['en', 'bn']) {
     assert.ok(html.includes('aria-current="page"'));
     assert.ok(html.includes('id="terms-download"'));
     const windows = route.includes('/windows');
+    const prompt = route.endsWith('/prompt');
     assert.ok(html.includes(windows ? 'hx21-windows-kit-' : 'hx21-mac-kit-'));
     assert.ok(!html.includes(windows ? 'hx21-mac-kit-' : 'hx21-windows-kit-'));
     const suffix =
-      (windows ? '/windows' : '') + (route.endsWith('/steps') ? '/steps' : '');
+      (windows ? '/windows' : '') +
+      (prompt ? '/prompt' : route.endsWith('/steps') ? '/steps' : '');
     for (const language of ['en', 'bn'])
       assert.ok(html.includes(`${basePath}/${language}${suffix}`));
-    if (windows) assert.doesNotMatch(html, /shasum -a 256/);
+    if (windows && !prompt) assert.doesNotMatch(html, /shasum -a 256/);
     assert.doesNotMatch(html, /http:\/\/localhost/);
     assert.doesNotMatch(
       html,
@@ -75,6 +79,14 @@ for (const locale of ['en', 'bn']) {
       for (const name of ['prepare', 'backup', 'verify', 'finish']) {
         assert.ok(html.includes(`${basePath}/illustrations/${name}.webp`));
       }
+    } else if (prompt) {
+      assert.ok(html.includes('id="llm-prompt-title"'));
+      assert.ok(
+        html.includes('Windows branch:') && html.includes('macOS branch:'),
+      );
+      assert.ok(
+        html.includes('START NOW') && html.includes('11. DOCUMENT AND RESUME'),
+      );
     } else {
       assert.ok(html.includes('id="mac-fix"'));
       assert.ok(html.includes('id="terms-mac-fix"'));
@@ -116,7 +128,7 @@ assert.ok(fontChecked);
 await access(join(out, '.nojekyll'));
 await access(join(out, '404.html'));
 const xml = await readFile(join(out, 'sitemap.xml'), 'utf8');
-assert.equal((xml.match(/<url>/g) || []).length, 8);
+assert.equal((xml.match(/<url>/g) || []).length, 12);
 assert.ok(xml.includes(`${basePath}/bn/steps`));
 assert.ok(xml.includes(`${basePath}/bn/windows/steps`));
 for (const name of [
@@ -130,5 +142,5 @@ for (const name of [
   assert.equal(createHash('sha256').update(zip).digest('hex'), manifest.sha256);
 }
 console.log(
-  'PASS: static entry preference, all eight OS/language/view pages, matching downloads, footer credit, subpath navigation/assets, Baloo Da 2 bytes, sitemap, 404 and both ZIP hashes.',
+  'PASS: static entry preference, all twelve OS/language/view pages including complete LLM prompts, matching downloads, footer credit, subpath navigation/assets, Baloo Da 2 bytes, sitemap, 404 and both ZIP hashes.',
 );

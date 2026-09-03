@@ -8,8 +8,16 @@ import { tmpdir } from 'node:os';
 // networking or run the stock-backup helper against any device.
 const root = resolve(import.meta.dirname, '..');
 const pwsh = process.env.POWERSHELL_BIN || 'pwsh';
+const unzip =
+  process.env.UNZIP_BIN ||
+  (process.platform === 'win32'
+    ? resolve(
+        process.env.ProgramFiles || 'C:/Program Files',
+        'Git/usr/bin/unzip.exe',
+      )
+    : 'unzip');
 const staging = await mkdtemp(join(tmpdir(), 'hx21-powershell-test-'));
-execFileSync('unzip', [
+execFileSync(unzip, [
   '-q',
   join(root, 'public/downloads/hx21-windows-kit-25.12.5-backup.zip'),
   '-d',
@@ -86,5 +94,5 @@ if (process.platform !== 'win32') {
   assert.match(result.stderr, /intended for Windows/);
 }
 console.log(
-  'PASS: PowerShell parser; four real firmware hashes; rejects corrupt firmware, empty/duplicate manifest, mismatched TFTP image and non-Windows backup host. No router connections made.',
+  'PASS: PowerShell parser; four real firmware hashes; rejects corrupt firmware, empty/duplicate manifest and mismatched TFTP image. Non-Windows host guard checked when applicable. No router connections made.',
 );

@@ -19,6 +19,7 @@ import { CopyCode } from './copy-code';
 import { NetworkDiagram, StepDiagram } from './diagrams';
 import { MacFix } from './mac-fix';
 import { StepHowTo } from './step-how-to';
+import { LlmPrompt } from './llm-prompt';
 import { TermNotes } from './term-notes';
 import { findingTerms, stepTerms } from '@/lib/terminology';
 import { walkthroughHelp } from '@/lib/walkthrough-help';
@@ -520,17 +521,31 @@ export function Guide({
             >
               <div className="content-intro">
                 <p className="eyebrow">
-                  {view === 'findings' ? t.findingEyebrow : t.stepEyebrow}
+                  {view === 'findings'
+                    ? t.findingEyebrow
+                    : view === 'prompt'
+                      ? t.promptEyebrow
+                      : t.stepEyebrow}
                 </p>
-                <h2>{view === 'findings' ? t.findingTitle : t.stepTitle}</h2>
+                <h2>
+                  {view === 'findings'
+                    ? t.findingTitle
+                    : view === 'prompt'
+                      ? t.promptTitle
+                      : t.stepTitle}
+                </h2>
                 <p>
                   {view === 'findings'
                     ? t.findingDescription
-                    : t.stepDescription}
+                    : view === 'prompt'
+                      ? t.promptDescription
+                      : t.stepDescription}
                 </p>
               </div>
               {view === 'findings' ? (
                 <Research locale={locale} platform={platform} />
+              ) : view === 'prompt' ? (
+                <LlmPrompt locale={locale} platform={platform} />
               ) : (
                 <Walkthrough locale={locale} platform={platform} />
               )}

@@ -1,6 +1,6 @@
 export const locales = ['en', 'bn'] as const;
 export type Locale = (typeof locales)[number];
-export type View = 'findings' | 'steps';
+export type View = 'findings' | 'steps' | 'prompt';
 export type Platform = 'mac' | 'windows';
 export const preferenceCookie = 'hx21-language-v1';
 export function isLocale(value: unknown): value is Locale {
@@ -19,7 +19,7 @@ export function guidePath(
   view: View = 'findings',
   platform: Platform = 'mac',
 ) {
-  return `/${locale}${platform === 'windows' ? '/windows' : ''}${view === 'steps' ? '/steps' : ''}`;
+  return `/${locale}${platform === 'windows' ? '/windows' : ''}${view === 'findings' ? '' : '/' + view}`;
 }
 export function languageCookie(locale: Locale, secure: boolean) {
   return `${preferenceCookie}=${locale}; Path=/; Max-Age=31536000; SameSite=Lax${secure ? '; Secure' : ''}`;

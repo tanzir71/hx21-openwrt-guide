@@ -20,13 +20,18 @@ export function pageMetadata(
   const bn = locale === 'bn';
   const computer = platform === 'windows' ? 'Windows' : bn ? 'ম্যাক' : 'Mac';
   const computerPossessive = platform === 'windows' ? 'Windows-এর' : 'ম্যাকের';
-  const title = bn
-    ? view === 'steps'
-      ? `HX21-এ OpenWrt: ${computerPossessive} জন্য ছবিতে ধাপে ধাপে`
-      : `HX21 OpenWrt গাইড: গবেষণা, সতর্কতা ও ${computer} ব্যাকআপ`
-    : view === 'steps'
-      ? `HX21 OpenWrt: Visual ${computer} Installation Walkthrough`
-      : `HX21 OpenWrt Guide: Findings, Risks & ${computer} Backups`;
+  const title =
+    view === 'prompt'
+      ? bn
+        ? `HX21 OpenWrt: ${computerPossessive} জন্য সম্পূর্ণ LLM প্রম্পট`
+        : `HX21 OpenWrt: Complete ${computer} LLM Prompt`
+      : bn
+        ? view === 'steps'
+          ? `HX21-এ OpenWrt: ${computerPossessive} জন্য ছবিতে ধাপে ধাপে`
+          : `HX21 OpenWrt গাইড: গবেষণা, সতর্কতা ও ${computer} ব্যাকআপ`
+        : view === 'steps'
+          ? `HX21 OpenWrt: Visual ${computer} Installation Walkthrough`
+          : `HX21 OpenWrt Guide: Findings, Risks & ${computer} Backups`;
   const description = bn
     ? `Imou HX21-এ OpenWrt ইনস্টলের সূত্রসহ বাংলা গাইড। ${computerPossessive} তারযুক্ত সংযোগ, Factory ব্যাকআপ, SSH ঝুঁকি, TFTP ও প্রথম বুট বুঝুন।`
     : `A source-linked Imou HX21 OpenWrt guide for ${computer}: native support, SSH and MAC risks, private Factory backups, TFTP recovery and first-boot checks.`;

@@ -5,6 +5,23 @@ import { execFileSync } from 'node:child_process';
 import { resolve, dirname } from 'node:path';
 import ts from 'typescript';
 const root = resolve(import.meta.dirname, '..');
+// Git for Windows provides the same read-only archive/shell checks used in CI.
+const unzip =
+  process.env.UNZIP_BIN ||
+  (process.platform === 'win32'
+    ? resolve(
+        process.env.ProgramFiles || 'C:/Program Files',
+        'Git/usr/bin/unzip.exe',
+      )
+    : '/usr/bin/unzip');
+const bash =
+  process.env.BASH_BIN ||
+  (process.platform === 'win32'
+    ? resolve(
+        process.env.ProgramFiles || 'C:/Program Files',
+        'Git/bin/bash.exe',
+      )
+    : '/bin/bash');
 async function moduleUrl(file) {
   const source = await readFile(file, 'utf8');
   const { outputText } = ts.transpileModule(source, {
@@ -47,6 +64,46 @@ assert.match(
 );
 assert.doesNotMatch(languageCookie('bn', false), /Secure/);
 const { findings, artifacts, ui } = await loadTs('lib/content.ts');
+const { buildLlmPrompt, promptRevision } = await loadTs('lib/llm-prompt.ts');
+assert.equal(guidePath('en', 'prompt', 'mac'), '/en/prompt');
+assert.equal(guidePath('bn', 'prompt', 'windows'), '/bn/windows/prompt');
+for (const locale of ['en', 'bn'])
+  for (const platform of ['mac', 'windows']) {
+    const prompt = buildLlmPrompt(locale, platform);
+    assert.ok(prompt.includes(promptRevision));
+    assert.ok(prompt.includes(guidePath(locale, 'steps', platform)));
+    assert.match(prompt, /Windows branch:/);
+    assert.match(prompt, /macOS branch:/);
+    for (const essential of [
+      'PowerShell 7.4',
+      'OpenSSH Client',
+      'GnuPG',
+      'independent internet',
+      'router-before',
+      'signing-subkey',
+      'TFTP',
+      'rollback',
+      'wired access point',
+      'actual operating country',
+      'active AND persistent',
+      'resume note',
+      'Approval of downloaded files is separate',
+    ])
+      assert.ok(
+        prompt.includes(essential),
+        `Missing workflow requirement: ${essential}`,
+      );
+    assert.match(
+      prompt,
+      /Do not flash, restore configuration, reboot or disconnect/,
+    );
+    assert.doesNotMatch(
+      prompt,
+      /StrictHostKeyChecking=no|BEGIN (?:OPENSSH|RSA|EC) PRIVATE KEY|[A-F0-9]{2}(?::[A-F0-9]{2}){5}|[A-Z]:[\\/]Users[\\/]/i,
+    );
+    if (locale === 'bn') assert.match(prompt, /Explain each step in Bengali/);
+  }
+
 const { steps, faqs } = await loadTs('lib/steps.ts');
 const { walkthroughHelp } = await loadTs('lib/walkthrough-help.ts');
 const { terminology, stepTerms, findingTerms } =
@@ -119,7 +176,11 @@ for (const locale of ['en', 'bn']) {
         }
       }
     }
-    assert.equal(help.access.problems.length, 4);
+    assert.ok(
+      help.access.problems.some(
+        (problem) => problem.signal === 'Local SSH configuration parse error',
+      ),
+    );
     assert.ok(
       help.access.items.some((item) =>
         item.commands?.some(
@@ -179,8 +240,8 @@ const zip = await readFile(zipPath);
 const hash = (data) => createHash('sha256').update(data).digest('hex');
 assert.equal(zip.length, manifest.bytes);
 assert.equal(hash(zip), manifest.sha256);
-execFileSync('/usr/bin/unzip', ['-t', zipPath], { stdio: 'pipe' });
-const names = execFileSync('/usr/bin/unzip', ['-Z1', zipPath], {
+execFileSync(unzip, ['-t', zipPath], { stdio: 'pipe' });
+const names = execFileSync(unzip, ['-Z1', zipPath], {
   encoding: 'utf8',
 })
   .trim()
@@ -199,7 +260,7 @@ assert.ok(
 );
 for (const file of manifest.files) {
   const data = execFileSync(
-    '/usr/bin/unzip',
+    unzip,
     ['-p', zipPath, 'HX21-OpenWrt-Mac-Kit/' + file.path],
     { maxBuffer: 128 * 1024 * 1024 },
   );
@@ -212,7 +273,7 @@ for (const file of manifest.files) {
       file.path,
     );
   if (/\.(sh|command)$/.test(file.path))
-    execFileSync('/bin/bash', ['-n'], {
+    execFileSync(bash, ['-n'], {
       input: data,
       stdio: ['pipe', 'pipe', 'pipe'],
     });
@@ -257,9 +318,9 @@ assert.deepEqual(
     a.localeCompare(b, 'en'),
   ),
 );
-execFileSync('/usr/bin/unzip', ['-t', windowsZip], { stdio: 'pipe' });
+execFileSync(unzip, ['-t', windowsZip], { stdio: 'pipe' });
 assert.deepEqual(
-  execFileSync('/usr/bin/unzip', ['-Z1', windowsZip], { encoding: 'utf8' })
+  execFileSync(unzip, ['-Z1', windowsZip], { encoding: 'utf8' })
     .trim()
     .split('\n')
     .sort(),
@@ -267,7 +328,7 @@ assert.deepEqual(
 );
 for (const file of windowsManifest.files) {
   const data = execFileSync(
-    '/usr/bin/unzip',
+    unzip,
     ['-p', windowsZip, 'HX21-OpenWrt-Windows-Kit/' + file.path],
     { maxBuffer: 128 * 1024 * 1024 },
   );
@@ -336,7 +397,7 @@ if (process.env.TEST_BASE_URL) {
   }
   for (const locale of ['en', 'bn'])
     for (const platform of ['mac', 'windows'])
-      for (const view of ['findings', 'steps']) {
+      for (const view of ['findings', 'steps', 'prompt']) {
         const path = guidePath(locale, view, platform),
           response = await fetch(base + path, {
             headers: {
@@ -394,10 +455,19 @@ if (process.env.TEST_BASE_URL) {
           assert.ok(html.includes('data-term="uci"'));
           for (const finding of platformFindings(locale, platform))
             assert.ok(html.includes('id="terms-finding-' + finding.id + '"'));
-        } else
+        } else if (view === 'steps')
           assert.ok(
             html.includes(guidePath(locale, 'findings', platform) + '#mac-fix'),
           );
+        if (view === 'prompt') {
+          assert.ok(
+            html.includes('Windows branch:') && html.includes('macOS branch:'),
+          );
+          assert.ok(
+            html.includes('START NOW') &&
+              html.includes('11. DOCUMENT AND RESUME'),
+          );
+        }
         if (locale === 'bn' && view === 'steps') {
           const styles = [
             ...html.matchAll(
@@ -430,7 +500,7 @@ if (process.env.TEST_BASE_URL) {
         );
         if (platform === 'windows') {
           assert.ok(html.includes('Get-FileHash'));
-          assert.doesNotMatch(html, /shasum -a 256/);
+          if (view !== 'prompt') assert.doesNotMatch(html, /shasum -a 256/);
           if (view === 'steps') {
             assert.ok(html.includes('Backup-Stock.ps1'));
             assert.ok(html.includes('Verify-Files.ps1'));
@@ -439,7 +509,9 @@ if (process.env.TEST_BASE_URL) {
         const ids =
           view === 'findings'
             ? platformFindings(locale, platform).map((f) => f.id)
-            : platformSteps(locale, platform).map((s) => 'step-' + s.id);
+            : view === 'steps'
+              ? platformSteps(locale, platform).map((s) => 'step-' + s.id)
+              : ['llm-prompt-title'];
         for (const id of ids)
           assert.ok(html.includes('id="' + id + '"'), path + ' missing ' + id);
         if (view === 'steps') {
@@ -494,7 +566,7 @@ if (process.env.TEST_BASE_URL) {
   ])
     assert.equal((await fetch(base + path)).status, 200, path);
   const xml = await (await fetch(base + '/sitemap.xml')).text();
-  assert.equal((xml.match(/<url>/g) || []).length, 8);
+  assert.equal((xml.match(/<url>/g) || []).length, 12);
   assert.ok(xml.includes('hreflang="bn"'));
   for (const archive of [manifest, windowsManifest]) {
     const download = await fetch(base + '/downloads/' + archive.name);
@@ -506,6 +578,6 @@ if (process.env.TEST_BASE_URL) {
     );
   }
   console.log(
-    'PASS: HTTP locale redirects, all 8 complete pages, OS/language/view links, selected control, OS-specific downloads and commands, footer credit, metadata/font/artwork, 404, sitemap and both served ZIP hashes.',
+    'PASS: HTTP locale redirects, all 12 complete pages, OS/language/view links, selected control, OS-specific downloads and commands, footer credit, metadata/font/artwork, 404, sitemap and both served ZIP hashes.',
   );
 }

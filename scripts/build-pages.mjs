@@ -7,7 +7,7 @@ import {
   rename,
 } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { join, resolve, dirname, parse } from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 const root = resolve(import.meta.dirname, '..');
@@ -16,7 +16,20 @@ if (basePath && !/^\/[a-zA-Z0-9._-]+$/.test(basePath)) {
   throw new Error('PAGES_BASE_PATH must be empty or one safe repository path.');
 }
 // Never temporarily rewrite the working app or interrupt its development server.
-const staging = await mkdtemp(join(tmpdir(), 'hx21-pages-build-'));
+// Next/webpack resolves Windows entry paths relative to the staging drive.
+const stagingRoot =
+  process.env.PAGES_BUILD_TMPDIR ||
+  (process.platform === 'win32' ? dirname(root) : tmpdir());
+if (
+  process.platform === 'win32' &&
+  parse(resolve(stagingRoot)).root.toLowerCase() !==
+    parse(root).root.toLowerCase()
+) {
+  throw new Error(
+    'PAGES_BUILD_TMPDIR must be on the same drive as this checkout on Windows.',
+  );
+}
+const staging = await mkdtemp(join(stagingRoot, 'hx21-pages-build-'));
 for (const entry of [
   'app',
   'components',
@@ -34,7 +47,11 @@ await cp(
   join(root, 'deployment/pages-entry-route.ts'),
   join(staging, 'app/route.ts'),
 );
-await symlink(join(root, 'node_modules'), join(staging, 'node_modules'), 'dir');
+await symlink(
+  join(root, 'node_modules'),
+  join(staging, 'node_modules'),
+  process.platform === 'win32' ? 'junction' : 'dir',
+);
 execFileSync(
   process.execPath,
   [join(root, 'node_modules/next/dist/bin/next'), 'build', '--webpack'],

@@ -1,5 +1,6 @@
 import type { Locale, Platform } from './locale';
 import { sources } from './content';
+import { addVerifiedGuidance } from './verified-guidance';
 
 export type HowToItem = {
   title: string;
@@ -31,7 +32,7 @@ export function walkthroughHelp(
   };
   const macFolder = 'cd ~/Desktop/HX21-OpenWrt-Mac-Kit';
 
-  return {
+  const help: Record<string, HowTo> = {
     identify: {
       intro: t(
         'Start here if you have never used a command window. Download tools and save these instructions before disconnecting your internet.',
@@ -137,8 +138,8 @@ export function walkthroughHelp(
           ),
           body: [
             t(
-              'Plug your Ethernet adapter into the computer and connect its cable to an HX21 port labeled LAN. Leave router power on, unplug WAN, and turn off computer Wi-Fi and VPN. Disable Internet Sharing / Internet Connection Sharing if it was enabled. Losing normal internet here is expected; keep an offline copy of the guide.',
-              'Ethernet adapter কম্পিউটারে লাগিয়ে তারটি HX21-এর LAN লেখা পোর্টে দিন। রাউটারের বিদ্যুৎ চালু রাখুন, WAN খুলুন এবং কম্পিউটারের Wi-Fi/VPN বন্ধ করুন। Internet Sharing / Internet Connection Sharing চালু থাকলে বন্ধ করুন। এই সময় স্বাভাবিক ইন্টারনেট না থাকা প্রত্যাশিত; গাইডের offline কপি রাখুন।',
+              'Connect the computer’s Ethernet adapter to a confirmed HX21 LAN port and initially unplug the router’s upstream cable. Keep stable power. If this chat depends on an independent Wi-Fi uplink, keep it active and verify the separate router/internet routes before changing Ethernet. Otherwise save everything offline first. Prevent Internet Sharing/ICS, accidental bridging and conflicting VPN routes; do not disconnect help blindly.',
+              'কম্পিউটারের Ethernet adapter যাচাইকৃত HX21 LAN-এ লাগিয়ে শুরুতে upstream cable খুলুন। Stable power রাখুন। স্বাধীন Wi-Fi uplink-এ chat চললে সেটি চালু রেখে Ethernet বদলানোর আগে router/internet-এর আলাদা route যাচাই করুন। অন্যথায় আগে offline কপি রাখুন। Internet Sharing/ICS, অনিচ্ছাকৃত bridge ও বিরোধী VPN route এড়ান; অন্ধভাবে সাহায্যের সংযোগ বন্ধ নয়।',
             ),
           ],
           expected: t(
@@ -164,8 +165,8 @@ export function walkthroughHelp(
               ]
             : [
                 t(
-                  'Apple menu → System Settings → Network → your wired Ethernet connection → Details → TCP/IP. Photograph its existing settings. Choose Configure IPv4: Manually. Enter IP address 192.168.1.254, subnet mask 255.255.255.0 and router 192.168.1.1, then OK / Apply. Do not edit the Wi-Fi service. DNS is not needed for this isolated link.',
-                  'Apple menu → System Settings → Network → তারযুক্ত Ethernet → Details → TCP/IP। আগের সেটিংসের ছবি নিন। Configure IPv4: Manually দিয়ে IP address 192.168.1.254, subnet mask 255.255.255.0 এবং router 192.168.1.1 দিন; OK / Apply করুন। Wi-Fi service বদলাবেন না। এই বিচ্ছিন্ন লিংকে DNS লাগে না।',
+                  'Apple menu → System Settings → Network → your wired Ethernet connection → Details → TCP/IP. Photograph its existing settings. Choose Configure IPv4: Manually. Enter IP address 192.168.1.254 and subnet mask 255.255.255.0. On this isolated link leave Router/gateway absent, then OK / Apply; if your macOS UI requires a gateway, use a reviewed adapter-specific alias method and check routing instead of inventing one. Do not edit the Wi-Fi service. DNS is not needed for this isolated link.',
+                  'Apple menu → System Settings → Network → তারযুক্ত Ethernet → Details → TCP/IP। আগের সেটিংসের ছবি নিন। Configure IPv4: Manually দিয়ে IP address 192.168.1.254 ও subnet mask 255.255.255.0 দিন। বিচ্ছিন্ন link-এ Router/gateway ফাঁকা রেখে OK / Apply করুন; macOS UI gateway চাইলে অনুমান না করে যাচাইকৃত adapter-specific alias পদ্ধতি নিন এবং route পরীক্ষা করুন। Wi-Fi service বদলাবেন না। এই বিচ্ছিন্ন লিংকে DNS লাগে না।',
                 ),
               ],
           caution: t(
@@ -347,8 +348,8 @@ export function walkthroughHelp(
         {
           signal: 'Operation timed out / No route to host',
           action: t(
-            'Check router power, LAN cable, both computer addresses, disabled VPN/Wi-Fi and the real stock LAN IP. This is not yet evidence that an SSH unlock is needed.',
-            'রাউটারের power, LAN cable, কম্পিউটারের দুই IP, বন্ধ VPN/Wi-Fi এবং আসল stock LAN IP দেখুন। শুধু এই error দেখে SSH unlock দরকার বলা যায় না।',
+            'Check router power, LAN cable, both computer addresses, the selected Ethernet route, possible VPN conflicts and the real stock LAN IP. This is not yet evidence that an SSH unlock is needed.',
+            'রাউটারের power, LAN cable, কম্পিউটারের দুই IP, নির্বাচিত Ethernet route, VPN conflict এবং আসল stock LAN IP দেখুন। শুধু এই error দেখে SSH unlock দরকার বলা যায় না।',
           ),
         },
         {
@@ -489,8 +490,8 @@ export function walkthroughHelp(
             'চারটি firmware check পাস এবং নতুন নামে রাখা TFTP recovery একই থাকে। অমিল হলে থামুন ও যাচাইকৃত উৎস থেকে আবার নামান—expected hash বদলাবেন না।',
           ),
           caution: t(
-            'A hash match is not publisher-signature verification. The kit’s detached signatures have not been authenticated by us. Follow the linked OpenWrt signature guide and its trusted-key instructions; a displayed “good signature” with an unverified key is insufficient. If you cannot complete that check, pause before writes.',
-            'Hash মেলা মানেই publisher signature যাচাই নয়। কিটের detached signature আমরা authenticate করিনি। OpenWrt signature guide ও trusted-key নির্দেশনা অনুসরণ করুন; অযাচাইকৃত key-এর “good signature” যথেষ্ট নয়। যাচাই করতে না পারলে লেখার আগে থামুন।',
+            'A hash match is not publisher-signature verification. The original kit build saved signatures without authenticating them; a later Windows verification authenticated the 25.12.5 manifest. You must still verify the exact files and trusted release key you are using. Follow the linked OpenWrt signature guide and its trusted-key instructions; a displayed “good signature” with an unverified key is insufficient. If you cannot complete that check, pause before writes.',
+            'Hash মেলা মানেই publisher signature যাচাই নয়। মূল kit তৈরির সময় signature শুধু সংরক্ষণ করা হয়েছিল; পরের Windows যাচাইয়ে 25.12.5 manifest authenticate করা হয়েছে। আপনার ব্যবহৃত সঠিক file ও trusted release key আবার যাচাই জরুরি। OpenWrt signature guide ও trusted-key নির্দেশনা অনুসরণ করুন; অযাচাইকৃত key-এর “good signature” যথেষ্ট নয়। যাচাই করতে না পারলে লেখার আগে থামুন।',
           ),
         },
         {
@@ -666,8 +667,8 @@ export function walkthroughHelp(
           ),
           body: [
             t(
-              'After the documented installed-system reboot, open http://192.168.1.1. In LuCI use System → Administration to set a strong root password, or run passwd in the INSTALLED router’s SSH shell. Network → Interfaces configures WAN using your ISP’s real details; Network → Wireless configures the real country, two radios, SSIDs and Wi-Fi passwords. Do not publish those credentials.',
-              'নথিভুক্ত installed-system reboot শেষে http://192.168.1.1 খুলুন। LuCI-তে System → Administration-এ শক্ত root password দিন, অথবা installed router-এর SSH shell-এ passwd চালান। Network → Interfaces-এ ISP-এর আসল তথ্য দিয়ে WAN এবং Network → Wireless-এ প্রকৃত দেশ, দুই radio, SSID ও Wi-Fi password দিন। Credential প্রকাশ করবেন না।',
+              'After the documented installed-system reboot, open http://192.168.1.1. In LuCI use System → Administration to set a strong root password, or run passwd in the INSTALLED router’s SSH shell. In Network → Interfaces follow the selected primary-router or AP design above; only the primary-router role needs your ISP WAN details; Network → Wireless configures the real country, two radios, SSIDs and Wi-Fi passwords. Do not publish those credentials.',
+              'নথিভুক্ত installed-system reboot শেষে http://192.168.1.1 খুলুন। LuCI-তে System → Administration-এ শক্ত root password দিন, অথবা installed router-এর SSH shell-এ passwd চালান। Network → Interfaces-এ উপরের primary-router বা AP নকশা অনুসরণ করুন; শুধু primary-router role-এ ISP WAN তথ্য লাগবে। Network → Wireless-এ প্রকৃত দেশ, দুই radio, SSID ও Wi-Fi password দিন। Credential প্রকাশ করবেন না।',
             ),
           ],
           expected: t(
@@ -721,4 +722,5 @@ export function walkthroughHelp(
       references: [device],
     },
   };
+  return addVerifiedGuidance(help, locale, platform);
 }

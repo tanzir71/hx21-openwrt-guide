@@ -6,10 +6,12 @@ export function CopyCode({
   text,
   label,
   labels,
+  scrollable = false,
 }: {
   text: string;
   label?: string;
   labels: { copy: string; copied: string; copyFailed: string };
+  scrollable?: boolean;
 }) {
   const [status, setStatus] = useState<'idle' | 'copied' | 'error'>('idle');
   async function copy() {
@@ -24,7 +26,18 @@ export function CopyCode({
     <div className="code-block">
       {label ? <div className="code-label">{label}</div> : null}
       <div className="code-row">
-        <code dir="ltr">{text}</code>
+        {scrollable ? (
+          <textarea
+            className="prompt-text"
+            dir="ltr"
+            readOnly
+            value={text}
+            rows={24}
+            aria-label={label}
+          />
+        ) : (
+          <code dir="ltr">{text}</code>
+        )}
         <Button
           variant="ghost"
           size="sm"
