@@ -20,6 +20,7 @@ import { NetworkDiagram, StepDiagram } from './diagrams';
 import { MacFix } from './mac-fix';
 import { StepHowTo } from './step-how-to';
 import { LlmPrompt } from './llm-prompt';
+import { VideoOverview } from './video-overview';
 import { TermNotes } from './term-notes';
 import { findingTerms, stepTerms } from '@/lib/terminology';
 import { walkthroughHelp } from '@/lib/walkthrough-help';
@@ -512,6 +513,7 @@ export function Guide({
               <a href={sources.device}>{t.officialAction} ↗</a>
             </p>
           </div>
+          <VideoOverview locale={locale} />
           <div id="guide">
             <GuideTabs
               locale={locale}

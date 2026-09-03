@@ -1890,6 +1890,87 @@ summary:focus-visible {
   }
 }
 
+.video-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: 32px;
+  margin: 36px 0 28px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #f0f3eb;
+}
+.video-overview h2 {
+  margin: 12px 0;
+  font-size: clamp(24px, 2.6vw, 32px);
+  line-height: 1.25;
+  letter-spacing: -0.6px;
+}
+.video-overview-copy > p:not(.eyebrow) {
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 12px 0;
+}
+.video-overview .video-language-note,
+.video-privacy-note {
+  color: var(--muted-foreground);
+}
+.video-frame {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: 10px;
+  background: #173f37;
+}
+.video-frame iframe,
+.video-preview,
+.video-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: inherit;
+}
+.video-preview {
+  position: relative;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+}
+.video-preview img {
+  object-fit: cover;
+}
+.video-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 48px;
+  border-radius: 13px;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  background: #cc4d28;
+  box-shadow: 0 4px 22px #0005;
+}
+.video-preview:hover .video-play,
+.video-preview:focus-visible .video-play {
+  background: #aa3719;
+}
+.video-privacy-note {
+  margin: 9px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+@media (max-width: 760px) {
+  .video-overview {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+    padding: 20px;
+  }
+}
+
 /* The complete prompt remains selectable in server-rendered HTML. */
 .llm-prompt {
   max-width: 960px;

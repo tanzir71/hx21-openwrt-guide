@@ -1,5 +1,7 @@
 # HX21 OpenWrt Guide
 
+The [three-minute video overview](https://www.youtube.com/watch?v=0Cm5mRq9jlQ) is embedded near the top of all English/Bengali and Windows/macOS views. A local preview loads first; pressing Play opens YouTube's privacy-enhanced player. English narration/captions cover Ethernet, power protection, backups, firmware checks, staged installation and final setup. The written guide remains the reference for exact commands and checkpoints.
+
 ## Complete assistant workflow and verified guidance
 
 The **LLM Prompt** tab covers prerequisites through final cleanup, with Windows/macOS branches, existing-device-state detection, independent chat connectivity, private backups, reviewed files and separate destructive-action checkpoints. Open `/en/prompt` or `/en/windows/prompt`; Bengali interfaces are at `/bn/prompt` and `/bn/windows/prompt`. The prompt requests replies in the selected language. OS/language switches preserve the view, and the complete prompt is selectable in server-rendered HTML and copyable with JavaScript. No LLM API, credentials form or router execution is built into the site.
