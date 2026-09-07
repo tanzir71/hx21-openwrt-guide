@@ -2,6 +2,27 @@
 
 The user authorized public GitHub Pages and Vercel hosting, including a new public repository named `tanzir71/hx21-openwrt-guide`.
 
+## Companion home-server guide — 8 September 2026 (Asia/Dhaka)
+
+- Published [private-homelab-agent-guide](https://github.com/tanzir71/private-homelab-agent-guide)
+  as a separate public repository with its own fresh history, AGPL license and
+  [searchable GitHub Pages guide](https://tanzir71.github.io/private-homelab-agent-guide/).
+  Its local checkout remains in the ignored `private-homelab-agent-guide/` folder;
+  it is also excluded from Vercel uploads.
+- HX21 application commit: `02d809fca954e24e2d1e6238c341c0ceaf16efe1`.
+  The shared footer links to the new guide in English and Bengali on every view.
+- HX21 [Pages workflow 34152167129](https://github.com/tanzir71/hx21-openwrt-guide/actions/runs/34152167129)
+  succeeded. Vercel deployment `dpl_26wFZR663rqCLRz1YdSYSRRL826a` reached **READY**
+  and was assigned to `hx21-openwrt-guide.vercel.app`; the earlier commit-author
+  access blocker did not recur. No access-control changes were needed.
+- `pnpm test`, `pnpm build`, `pnpm build:pages` and `pnpm test:pages` passed.
+  Live HTTP checks confirmed the companion link on all 24 pages across the two
+  hosts. The new guide's 21 pages, search index, CSS and license matched the
+  verified local build byte for byte. Its separate workflow passed publication,
+  syntax, Compose, checksum, strict build and generated-link checks.
+- Vercel was deployed with the CLI. Future GitHub push-to-deploy behavior remains
+  unverified. The dated failures below are historical records.
+
 ## In-context terminology update — 3 September 2026 (Asia/Dhaka)
 
 - Application commit: `dad0b78298e564a78ff59c66293504615674e6f1`.

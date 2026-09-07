@@ -22,9 +22,7 @@ Bilingual Next.js site with a full Vercel deployment and a static GitHub Pages b
 - [GitHub Pages mirror](https://tanzir71.github.io/hx21-openwrt-guide/)
 - [Source repository](https://github.com/tanzir71/hx21-openwrt-guide)
 
-Published and live-checked on 3 September 2026 (Asia/Dhaka). GitHub Pages updates automatically on pushes to `main`. The Vercel production deployment is live, but its GitHub auto-deploy connection could not be established; publish updates with the CLI until that connection is authorized/configured.
-
-The OS selector and beginner walkthrough are live and verified on **GitHub Pages**. Vercel updates remain blocked by commit-author access verification; Vercel still serves the preceding release. Connect GitHub `tanzir71` in [Vercel account authentication](https://vercel.com/account/authentication), then retry the deployment. No access-control settings were weakened.
+Updated and live-checked on 8 September 2026 (Asia/Dhaka). Both GitHub Pages and Vercel serve the current guide, including the standalone home-server guide link on all twelve language/OS/view pages. The earlier Vercel commit-author blocker did not recur. GitHub Pages updates automatically on pushes to `main`; Vercel was published with the CLI, and future GitHub push-to-deploy behavior has not been verified.
 
 ## Run on a Mac
 
