@@ -36,6 +36,7 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+/private-homelab-agent-guide/
 *.tsbuildinfo
 app/fonts/AnekBangla-Variable.ttf
 app/fonts/OFL-AnekBangla.txt

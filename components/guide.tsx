@@ -597,6 +597,15 @@ export function Guide({
                 <ArrowUpRight size={13} aria-hidden="true" />
               </a>
             </p>
+            <p className="creator-credit">
+              {locale === 'bn' ? 'আরও একটি গাইড: ' : 'Related guide: '}
+              <a href="https://tanzir71.github.io/private-homelab-agent-guide/">
+                {locale === 'bn'
+                  ? 'ব্যক্তিগত হোম সার্ভার সেটআপ (ইংরেজি)'
+                  : 'Private Home Server — agent-assisted setup'}{' '}
+                <ArrowUpRight size={13} aria-hidden="true" />
+              </a>
+            </p>
             <p className="privacy-note">
               {isStaticMirror ? t.staticPrivacy : t.privacy}
             </p>
