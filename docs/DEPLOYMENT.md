@@ -2,6 +2,30 @@
 
 The user authorized public GitHub Pages and Vercel hosting, including a new public repository named `tanzir71/hx21-openwrt-guide`.
 
+## Illustrated Ubuntu guide and URL migration — 8 September 2026 (Asia/Dhaka)
+
+- The maintained companion is now [ubuntu-home-server-guide](https://github.com/tanzir71/ubuntu-home-server-guide),
+  published at [Ubuntu Home Server Guide](https://tanzir71.github.io/ubuntu-home-server-guide/).
+  Its checkout moved to the ignored `ubuntu-home-server-guide/` folder, also excluded from Vercel uploads.
+- The 26-page site uses the HX21 palette, four generated illustrations, readable
+  chapter URLs, search, a mobile chapter menu and prompt copying. New chapters explain
+  concepts, setup checkpoints, Ubuntu versus Windows on an old PC, and waking through
+  HX21 with Ethernet-card compatibility and dated price guidance.
+- New guide commit: `36f779cb241375f1863d8b11f326deffc013eb46`.
+  [Pages run 34160324130](https://github.com/tanzir71/ubuntu-home-server-guide/actions/runs/34160324130)
+  succeeded. Exact live HTML bytes for all 26 pages and all four image files matched
+  the checked local build; 1,368 local links/assets/anchors and SEO metadata passed.
+- The former repository preserves historical source. Commit `31218737bf15c0be65cd998077c7d54cde70b5c0`
+  publishes 21 per-page HTML redirects; [run 34160214419](https://github.com/tanzir71/private-homelab-agent-guide/actions/runs/34160214419)
+  succeeded. Every old page was checked, and browser navigation confirmed a deep
+  redirect preserves its fragment. These are HTML redirects, not HTTP 301 responses.
+- HX21 application commit: `3ddf515714cc5c91af4f7f72c1a605dde9b0ac15`.
+  [Pages run 34160218639](https://github.com/tanzir71/hx21-openwrt-guide/actions/runs/34160218639)
+  succeeded. Vercel deployment `dpl_8YzqSrMw75i84Btgk1pGuBK7NU7Z` reached **READY**
+  with the production alias. Both guide and WoL links were verified on all 24 HX21
+  pages across the two hosts. Guide tests, lint, Pages build/checks and the Vercel
+  production build passed. No physical PC, NIC or router wake test is implied.
+
 ## Companion home-server guide — 8 September 2026 (Asia/Dhaka)
 
 - Published [private-homelab-agent-guide](https://github.com/tanzir71/private-homelab-agent-guide)
