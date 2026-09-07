@@ -599,10 +599,18 @@ export function Guide({
             </p>
             <p className="creator-credit">
               {locale === 'bn' ? 'আরও একটি গাইড: ' : 'Related guide: '}
-              <a href="https://tanzir71.github.io/private-homelab-agent-guide/">
+              <a href="https://tanzir71.github.io/ubuntu-home-server-guide/">
                 {locale === 'bn'
-                  ? 'ব্যক্তিগত হোম সার্ভার সেটআপ (ইংরেজি)'
-                  : 'Private Home Server — agent-assisted setup'}{' '}
+                  ? 'উবুন্টু হোম সার্ভার গাইড (ইংরেজি)'
+                  : 'Ubuntu Home Server Guide'}{' '}
+                <ArrowUpRight size={13} aria-hidden="true" />
+              </a>
+            </p>
+            <p className="creator-credit">
+              <a href="https://tanzir71.github.io/ubuntu-home-server-guide/wake-on-lan-openwrt-ethernet-card/">
+                {locale === 'bn'
+                  ? 'HX21 দিয়ে পুরোনো পিসি চালু করুন: Wake-on-LAN ও ইথারনেট কার্ড (ইংরেজি)'
+                  : 'Wake an old PC with HX21: Wake-on-LAN and Ethernet cards'}{' '}
                 <ArrowUpRight size={13} aria-hidden="true" />
               </a>
             </p>

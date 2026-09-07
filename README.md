@@ -1,9 +1,9 @@
 # HX21 OpenWrt Guide
 
-Related guide: [Private Home Server](https://tanzir71.github.io/private-homelab-agent-guide/)
-([standalone source repository](https://github.com/tanzir71/private-homelab-agent-guide))
+Related guide: [Ubuntu Home Server Guide](https://tanzir71.github.io/ubuntu-home-server-guide/)
+([standalone source repository](https://github.com/tanzir71/ubuntu-home-server-guide))
 covers an agent-assisted Ubuntu/Tailscale home server, downloads, files, media,
-notifications and optional local voiceover. The shared footer links to it in
+notifications and optional local voiceover. It also covers [Ubuntu vs Windows on an old PC](https://tanzir71.github.io/ubuntu-home-server-guide/old-pc-server-ubuntu-vs-windows/) and [Wake-on-LAN through HX21 with inexpensive Ethernet-card buying guidance](https://tanzir71.github.io/ubuntu-home-server-guide/wake-on-lan-openwrt-ethernet-card/). The shared footer links to it in
 every language, OS and view on both hosting targets.
 
 The [three-minute video overview](https://www.youtube.com/watch?v=0Cm5mRq9jlQ) is embedded near the top of all English/Bengali and Windows/macOS views. A local preview loads first; pressing Play opens YouTube's privacy-enhanced player. English narration/captions cover Ethernet, power protection, backups, firmware checks, staged installation and final setup. The written guide remains the reference for exact commands and checkpoints.
